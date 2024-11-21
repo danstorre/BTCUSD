@@ -12,6 +12,7 @@ So I can check if my purchasing power as changed in real time.
 
 #### Scenarios (Acceptance criteria)
 
+```
 Given the customer has connectivity
 When the customer requests to see the latest BTC/USD in real time
 Then the app should display the latest BTC/USD
@@ -24,7 +25,7 @@ When a second has passed
 Then the app should display the latest BTC/USD
 exchange price from remote
 and replace the cache with the new exchange price
-
+```
 ### Narrative #2
 
 ```
@@ -35,6 +36,7 @@ So I can calculate how long has passed since I checked the latest BTC/USD exchan
 
 #### Scenarios (Acceptance criteria)
 
+```
 Given the customer doesn't have connectivity
 When the customer requests to see the latest BTC/USD
 And the cache is not empty
@@ -52,6 +54,7 @@ And the cache is not empty
 When a second has passed
 Then the app should display an error message
 with the last updated value and date.
+```
 
 ## Use Cases
 
