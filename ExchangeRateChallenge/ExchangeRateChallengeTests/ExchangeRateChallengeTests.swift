@@ -7,10 +7,17 @@ class RemoteExchangeRateLoader {
         self.client = client
     }
     
+    func load() {
+        client.getData()
+    }
 }
 
 class HTTPClientSpy {
     private(set) var loadMessageCallCount = 0
+    
+    func getData() {
+        loadMessageCallCount += 1
+    }
 }
 
 final class RemoteExchangeRateLoaderTests: XCTestCase {
@@ -20,5 +27,14 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         let _ = RemoteExchangeRateLoader(client: spy)
         
         XCTAssertEqual(spy.loadMessageCallCount, 0)
+    }
+    
+    func test_load_messagesHTTPClient() {
+        let spy = HTTPClientSpy()
+        let sut = RemoteExchangeRateLoader(client: spy)
+        
+        sut.load()
+        
+        XCTAssertEqual(spy.loadMessageCallCount, 1)
     }
 }
