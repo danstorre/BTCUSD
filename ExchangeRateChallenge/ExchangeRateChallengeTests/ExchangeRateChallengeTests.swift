@@ -2,21 +2,25 @@ import XCTest
 
 class RemoteExchangeRateLoader {
     private let client: HTTPClientSpy
+    private let url: URL
     
-    init(client: HTTPClientSpy) {
+    init(client: HTTPClientSpy, url: URL) {
         self.client = client
+        self.url = url
     }
     
     func load() {
-        client.getData()
+        client.getData(from: url)
     }
 }
 
 class HTTPClientSpy {
     private(set) var loadMessageCallCount = 0
+    private(set) var requestedURLs = [URL]()
     
-    func getData() {
+    func getData(from url: URL) {
         loadMessageCallCount += 1
+        requestedURLs.append(url)
     }
 }
 
@@ -24,17 +28,20 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
     
     func test_init_doesNotMessageHTTPClient() {
         let spy = HTTPClientSpy()
-        let _ = RemoteExchangeRateLoader(client: spy)
+        let anyURL = URL(string: "http://anyURL.com")!
+        let _ = RemoteExchangeRateLoader(client: spy, url: anyURL)
         
         XCTAssertEqual(spy.loadMessageCallCount, 0)
     }
     
-    func test_load_messagesHTTPClient() {
+    func test_load_twice_messagesHTTPClientWithCorrectURLTwice() {
         let spy = HTTPClientSpy()
-        let sut = RemoteExchangeRateLoader(client: spy)
+        let anyURL = URL(string: "http://anyURL.com")!
+        let sut = RemoteExchangeRateLoader(client: spy, url: anyURL)
         
         sut.load()
+        sut.load()
         
-        XCTAssertEqual(spy.loadMessageCallCount, 1)
+        XCTAssertEqual(spy.requestedURLs, [anyURL, anyURL])
     }
 }
