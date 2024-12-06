@@ -41,36 +41,35 @@ class HTTPClientSpy {
 final class RemoteExchangeRateLoaderTests: XCTestCase {
     
     func test_init_doesNotMessageHTTPClient() {
-        let spy = HTTPClientSpy()
-        let anyURL = URL(string: "http://anyURL.com")!
-        let _ = RemoteExchangeRateLoader(client: spy, url: anyURL)
-        
+        let (_, spy) = makeSUT()
         XCTAssertEqual(spy.loadMessageCallCount, 0)
     }
     
     func test_load_twice_messagesHTTPClientWithCorrectURLTwice() {
-        let spy = HTTPClientSpy()
-        let anyURL = URL(string: "http://anyURL.com")!
-        let sut = RemoteExchangeRateLoader(client: spy, url: anyURL)
+        let (sut, spy) = makeSUT()
+        let url = URL(string: "http://anyURL.com")!
         
-        sut.load() { _ in }
-        sut.load() { _ in }
+        sut.load { _ in }
+        sut.load { _ in }
         
-        XCTAssertEqual(spy.requestedURLs, [anyURL, anyURL])
+        XCTAssertEqual(spy.requestedURLs, [url, url])
     }
     
     func test_load_onHTTPClientError_deliversConnectivityError() {
-        let spy = HTTPClientSpy()
+        let (sut, spy) = makeSUT()
         let anyError = NSError(domain: "", code: 1)
-        let anyURL = URL(string: "http://anyURL.com")!
-        let sut = RemoteExchangeRateLoader(client: spy, url: anyURL)
         
         var receivedError: RemoteExchangeRateLoader.Error?
-        sut.load() { error in
-            receivedError = error
-        }
+        sut.load { error in receivedError = error }
         spy.completesWith(error: anyError)
         
         XCTAssertEqual(receivedError, .noConnectivity)
+    }
+    
+    // MARK: - Helpers
+    private func makeSUT(url: URL = URL(string: "http://anyURL.com")!) -> (sut: RemoteExchangeRateLoader, spy: HTTPClientSpy) {
+        let spy = HTTPClientSpy()
+        let sut = RemoteExchangeRateLoader(client: spy, url: url)
+        return (sut, spy)
     }
 }
