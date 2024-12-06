@@ -21,13 +21,14 @@ class RemoteExchangeRateLoader {
 }
 
 class HTTPClientSpy {
+    typealias HTTPClientCompletion = (Error) -> Void
     var loadMessageCallCount: Int {
         requestedURLs.count
     }
     private(set) var requestedURLs = [URL]()
-    private var completions = [(Error) -> Void]()
+    private var completions = [HTTPClientCompletion]()
     
-    func getData(from url: URL, completion: @escaping (Error) -> Void) {
+    func getData(from url: URL, completion: @escaping HTTPClientCompletion) {
         requestedURLs.append(url)
         completions.append(completion)
     }
