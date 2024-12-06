@@ -15,11 +15,12 @@ class RemoteExchangeRateLoader {
 }
 
 class HTTPClientSpy {
-    private(set) var loadMessageCallCount = 0
+    var loadMessageCallCount: Int {
+        requestedURLs.count
+    }
     private(set) var requestedURLs = [URL]()
     
     func getData(from url: URL) {
-        loadMessageCallCount += 1
         requestedURLs.append(url)
     }
 }
