@@ -88,46 +88,42 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         let samples = [199, 300, 400, 404, 500]
         
         samples.enumerated().forEach { (index, statusCode) in
-            var receivedError: RemoteExchangeRateLoader.Error?
-            sut.load { error in
-                receivedError = error
-            }
-            
-            spy.completes(statusCode: statusCode, data: .none, at: index)
-            
-            XCTAssertEqual(receivedError, .invalidData, "Expected invalidData error for status code \(statusCode), got \(String(describing: receivedError)) instead")
+            expectToFailWithInvalidData(sut: sut, when: {
+                spy.completes(statusCode: statusCode, data: .none, at: index)
+            })
         }
     }
     
     func test_load_on200HTTPResponseWithInvalidData_deliversInvalidDataError() {
         let (sut, spy) = makeSUT()
         
-        var receivedError: RemoteExchangeRateLoader.Error?
-        
-        sut.load { error in
-            receivedError = error
-        }
-        
-        spy.completes(statusCode: 200, data: Data("InvalidData".utf8))
-        
-        XCTAssertEqual(receivedError, .invalidData, "Expected invalidData error, got \(String(describing: receivedError)) instead")
+        expectToFailWithInvalidData(sut: sut, when: {
+            spy.completes(statusCode: 200, data: Data("InvalidData".utf8))
+        })
     }
     
     func test_load_on200HTTPResponseWithEmptyData_deliversInvalidDataError() {
         let (sut, spy) = makeSUT()
         
+        expectToFailWithInvalidData(sut: sut, when: {
+            spy.completes(statusCode: 200, data: Data("".utf8))
+        })
+    }
+    
+    // MARK: - Helpers
+    
+    private func expectToFailWithInvalidData(sut: RemoteExchangeRateLoader, when action: @escaping () -> Void, file: StaticString = #filePath,
+                   line: UInt = #line) {
         var receivedError: RemoteExchangeRateLoader.Error?
         
         sut.load { error in
             receivedError = error
         }
         
-        spy.completes(statusCode: 200, data: Data("".utf8))
+        action()
         
-        XCTAssertEqual(receivedError, .invalidData, "Expected invalidData error, got \(String(describing: receivedError)) instead")
+        XCTAssertEqual(receivedError, .invalidData, "Expected invalidData error, got \(String(describing: receivedError)) instead", file: file, line: line)
     }
-    
-    // MARK: - Helpers
     private func makeSUT(url: URL = URL(string: "http://anyURL.com")!) -> (sut: RemoteExchangeRateLoader, spy: HTTPClientSpy) {
         let spy = HTTPClientSpy()
         let sut = RemoteExchangeRateLoader(client: spy, url: url)
