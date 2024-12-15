@@ -113,6 +113,20 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         XCTAssertEqual(receivedError, .invalidData, "Expected invalidData error, got \(String(describing: receivedError)) instead")
     }
     
+    func test_load_on200HTTPResponseWithEmptyData_deliversInvalidDataError() {
+        let (sut, spy) = makeSUT()
+        
+        var receivedError: RemoteExchangeRateLoader.Error?
+        
+        sut.load { error in
+            receivedError = error
+        }
+        
+        spy.completes(statusCode: 200, data: Data("".utf8))
+        
+        XCTAssertEqual(receivedError, .invalidData, "Expected invalidData error, got \(String(describing: receivedError)) instead")
+    }
+    
     // MARK: - Helpers
     private func makeSUT(url: URL = URL(string: "http://anyURL.com")!) -> (sut: RemoteExchangeRateLoader, spy: HTTPClientSpy) {
         let spy = HTTPClientSpy()
