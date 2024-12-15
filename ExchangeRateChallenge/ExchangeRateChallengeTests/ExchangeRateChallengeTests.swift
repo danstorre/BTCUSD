@@ -26,7 +26,7 @@ class RemoteExchangeRateLoader {
 }
 
 class HTTPClientSpy {
-    typealias HTTPClientCompletion = (HTTPURLResponse?, Error?) -> Void
+    typealias HTTPClientCompletion = ((HTTPURLResponse, Data?)?, Error?) -> Void
     var loadMessageCallCount: Int {
         requestedURLs.count
     }
@@ -42,7 +42,7 @@ class HTTPClientSpy {
         completions[index](nil, error)
     }
     
-    func failsWith(statusCode: Int, at index: Int = 0) {
+    func completes(statusCode: Int, data: Data?, at index: Int = 0) {
         let url = requestedURLs[index]
         let response = HTTPURLResponse(
             url: url,
@@ -50,7 +50,7 @@ class HTTPClientSpy {
             httpVersion: nil,
             headerFields: nil
         )!
-        completions[index](response, nil)
+        completions[index]((response, data), nil)
     }
 }
 
@@ -93,10 +93,24 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
                 receivedError = error
             }
             
-            spy.failsWith(statusCode: statusCode, at: index)
+            spy.completes(statusCode: statusCode, data: .none, at: index)
             
             XCTAssertEqual(receivedError, .invalidData, "Expected invalidData error for status code \(statusCode), got \(String(describing: receivedError)) instead")
         }
+    }
+    
+    func test_load_on200HTTPResponseWithInvalidData_deliversInvalidDataError() {
+        let (sut, spy) = makeSUT()
+        
+        var receivedError: RemoteExchangeRateLoader.Error?
+        
+        sut.load { error in
+            receivedError = error
+        }
+        
+        spy.completes(statusCode: 200, data: Data("InvalidData".utf8))
+        
+        XCTAssertEqual(receivedError, .invalidData, "Expected invalidData error, got \(String(describing: receivedError)) instead")
     }
     
     // MARK: - Helpers
