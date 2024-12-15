@@ -6,6 +6,7 @@ class RemoteExchangeRateLoader {
     
     enum Error: Swift.Error {
         case noConnectivity
+        case invalidData
     }
     
     init(client: HTTPClientSpy, url: URL) {
@@ -14,14 +15,18 @@ class RemoteExchangeRateLoader {
     }
     
     func load(completion: @escaping (Error) -> Void) {
-        client.getData(from: url) { response in
+        client.getData(from: url) { (response, error) in
+            guard error != nil else {
+                completion(.invalidData)
+                return
+            }
             completion(.noConnectivity)
         }
     }
 }
 
 class HTTPClientSpy {
-    typealias HTTPClientCompletion = (Error) -> Void
+    typealias HTTPClientCompletion = (HTTPURLResponse?, Error?) -> Void
     var loadMessageCallCount: Int {
         requestedURLs.count
     }
@@ -33,8 +38,19 @@ class HTTPClientSpy {
         completions.append(completion)
     }
     
-    func completesWith(error: Error, at index: Int = 0) {
-        completions[index](error)
+    func failsWith(error: Error, at index: Int = 0) {
+        completions[index](nil, error)
+    }
+    
+    func failsWith(statusCode: Int, at index: Int = 0) {
+        let url = requestedURLs[index]
+        let response = HTTPURLResponse(
+            url: url,
+            statusCode: statusCode,
+            httpVersion: nil,
+            headerFields: nil
+        )!
+        completions[index](response, nil)
     }
 }
 
@@ -61,9 +77,26 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         
         var receivedError: RemoteExchangeRateLoader.Error?
         sut.load { error in receivedError = error }
-        spy.completesWith(error: anyError)
+        spy.failsWith(error: anyError)
         
         XCTAssertEqual(receivedError, .noConnectivity)
+    }
+    
+    func test_load_onNon2xxHTTPResponse_deliversInvalidDataError() {
+        let (sut, spy) = makeSUT()
+        
+        let samples = [199, 300, 400, 404, 500]
+        
+        samples.enumerated().forEach { (index, statusCode) in
+            var receivedError: RemoteExchangeRateLoader.Error?
+            sut.load { error in
+                receivedError = error
+            }
+            
+            spy.failsWith(statusCode: statusCode, at: index)
+            
+            XCTAssertEqual(receivedError, .invalidData, "Expected invalidData error for status code \(statusCode), got \(String(describing: receivedError)) instead")
+        }
     }
     
     // MARK: - Helpers
