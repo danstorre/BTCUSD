@@ -24,12 +24,17 @@ enum RemoteExchangeRateMapper {
     }
     
     static func map(response: HTTPURLResponse, data: Data) -> RemoteExchangeRateLoader.Result {
-        // TODO: check statusCode in a helper method.
-        guard response.statusCode == 200, let exchangeRate = try? JSONDecoder().decode(RemoteExchangeRate.self, from: data) else {
+        guard Self.isOK(httpStatusCode: response.statusCode),
+              let exchangeRate = try? JSONDecoder().decode(RemoteExchangeRate.self, from: data)
+        else {
             return .failure(.invalidData)
         }
         
         return .success(exchangeRate.item)
+    }
+    
+    private static func isOK(httpStatusCode: Int) -> Bool {
+        httpStatusCode == 200
     }
 }
 
