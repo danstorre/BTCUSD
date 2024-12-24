@@ -56,12 +56,12 @@ class RemoteExchangeRateLoader {
 }
 
 // TODO: Move this result into HTTPClientSpy.
-enum HTTPClientResult {
-    case success((HTTPURLResponse, Data))
-    case failure(Error)
-}
-
 class HTTPClientSpy {
+    enum HTTPClientResult {
+        case success((HTTPURLResponse, Data))
+        case failure(Error)
+    }
+
     typealias HTTPClientCompletion = (HTTPClientResult) -> Void
     var loadMessageCallCount: Int {
         requestedURLs.count
