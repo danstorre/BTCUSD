@@ -38,7 +38,6 @@ enum RemoteExchangeRateMapper {
     }
 }
 
-
 class RemoteExchangeRateLoader {
     typealias Result = Swift.Result<ExchangeRate, Error>
     private let client: HTTPClient
@@ -74,35 +73,6 @@ enum HTTPClientResult {
 protocol HTTPClient {
     typealias HTTPClientCompletion = (HTTPClientResult) -> Void
     func getData(from url: URL, completion: @escaping HTTPClientCompletion)
-}
-
-class HTTPClientSpy: HTTPClient {
-    typealias HTTPClientCompletion = (HTTPClientResult) -> Void
-    var loadMessageCallCount: Int {
-        requestedURLs.count
-    }
-    private(set) var requestedURLs = [URL]()
-    private var completions = [HTTPClientCompletion]()
-    
-    func getData(from url: URL, completion: @escaping HTTPClientCompletion) {
-        requestedURLs.append(url)
-        completions.append(completion)
-    }
-    
-    func failsWith(error: Error, at index: Int = 0) {
-        completions[index](HTTPClientResult.failure(error))
-    }
-    
-    func completes(statusCode: Int, data: Data = Data(), at index: Int = 0) {
-        let url = requestedURLs[index]
-        let response = HTTPURLResponse(
-            url: url,
-            statusCode: statusCode,
-            httpVersion: nil,
-            headerFields: nil
-        )!
-        completions[index](HTTPClientResult.success((response, data)))
-    }
 }
 
 final class RemoteExchangeRateLoaderTests: XCTestCase {
@@ -222,5 +192,34 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         let spy = HTTPClientSpy()
         let sut = RemoteExchangeRateLoader(client: spy, url: url)
         return (sut, spy)
+    }
+    
+    private class HTTPClientSpy: HTTPClient {
+        typealias HTTPClientCompletion = (HTTPClientResult) -> Void
+        var loadMessageCallCount: Int {
+            requestedURLs.count
+        }
+        private(set) var requestedURLs = [URL]()
+        private var completions = [HTTPClientCompletion]()
+        
+        func getData(from url: URL, completion: @escaping HTTPClientCompletion) {
+            requestedURLs.append(url)
+            completions.append(completion)
+        }
+        
+        func failsWith(error: Error, at index: Int = 0) {
+            completions[index](HTTPClientResult.failure(error))
+        }
+        
+        func completes(statusCode: Int, data: Data = Data(), at index: Int = 0) {
+            let url = requestedURLs[index]
+            let response = HTTPURLResponse(
+                url: url,
+                statusCode: statusCode,
+                httpVersion: nil,
+                headerFields: nil
+            )!
+            completions[index](HTTPClientResult.success((response, data)))
+        }
     }
 }
