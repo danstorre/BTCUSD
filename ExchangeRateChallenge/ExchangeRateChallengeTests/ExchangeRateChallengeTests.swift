@@ -111,7 +111,7 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         let (sut, spy) = makeSUT()
         let anyError = NSError(domain: "", code: 1)
         
-        expect(sut: sut, toFailWith: .noConnectivity, when: {
+        expect(sut: sut, toCompleteWith: failure(.noConnectivity), when: {
             spy.failsWith(error: anyError)
         })
     }
@@ -122,7 +122,7 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         let samples = [199, 300, 400, 404, 500]
         
         samples.enumerated().forEach { (index, statusCode) in
-            expect(sut: sut, toFailWith: .invalidData, when: {
+            expect(sut: sut, toCompleteWith: failure(.invalidData), when: {
                 spy.completes(statusCode: statusCode, at: index)
             })
         }
@@ -131,7 +131,7 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
     func test_load_on200HTTPResponseWithInvalidData_deliversInvalidDataError() {
         let (sut, spy) = makeSUT()
         
-        expect(sut: sut, toFailWith: .invalidData, when: {
+        expect(sut: sut, toCompleteWith: failure(.invalidData), when: {
             spy.completes(statusCode: 200, data: Data("InvalidData".utf8))
         })
     }
@@ -139,7 +139,7 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
     func test_load_on200HTTPResponseWithEmptyData_deliversInvalidDataError() {
         let (sut, spy) = makeSUT()
         
-        expect(sut: sut, toFailWith: .invalidData, when: {
+        expect(sut: sut, toCompleteWith: failure(.invalidData), when: {
             spy.completes(statusCode: 200, data: Data("".utf8))
         })
     }
@@ -161,47 +161,40 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         // TODO: create helper method to encode the remote JSON object.
         let data = try JSONSerialization.data(withJSONObject: remoteModel)
         
-        expect(sut: sut, toSucceedWith: model, when: {
+        expect(sut: sut, toCompleteWith: success(with: model), when: {
             spy.completes(statusCode: 200, data: data)
         })
     }
     
     // MARK: - Helpers
-    // TODO: create a helper method to reduce duplication from expect functions.
     private func expect(
         sut: RemoteExchangeRateLoader,
-        toSucceedWith expectedResult: ExchangeRate,
+        toCompleteWith expectedResult: RemoteExchangeRateLoader.Result,
         when action: @escaping () -> Void, file: StaticString = #filePath,
                    line: UInt = #line) {
-        var receivedResult: ExchangeRate?
-        
-        sut.load { result in
-            if case .success(let result) = result {
-                receivedResult = result
+                       
+        sut.load { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedResult), .success(expectedResult)):
+                XCTAssertEqual(receivedResult, expectedResult, "Expected \(expectedResult), got \(String(describing: receivedResult)) instead", file: file, line: line)
+            
+            case let (.failure(receivedError), .failure(expectedError)):
+                XCTAssertEqual(receivedError, expectedError, "Expected \(expectedError) error, got \(String(describing: receivedError)) instead", file: file, line: line)
+                
+            default:
+                XCTFail("Expected \(expectedResult), got \(receivedResult) instead", file: file, line: line)
             }
         }
         
         action()
-        
-        XCTAssertEqual(receivedResult, expectedResult, "Expected \(expectedResult), got \(String(describing: receivedResult)) instead", file: file, line: line)
     }
     
-    private func expect(
-        sut: RemoteExchangeRateLoader,
-        toFailWith expectedError: RemoteExchangeRateLoader.Error,
-        when action: @escaping () -> Void, file: StaticString = #filePath,
-                   line: UInt = #line) {
-        var receivedResult: RemoteExchangeRateLoader.Error?
-        
-        sut.load { result in
-            if case .failure(let result) = result {
-                receivedResult = result
-            }
-        }
-        
-        action()
-        
-        XCTAssertEqual(receivedResult, expectedError, "Expected \(expectedError) error, got \(String(describing: receivedResult)) instead", file: file, line: line)
+    private func failure(_ error: RemoteExchangeRateLoader.Error) -> RemoteExchangeRateLoader.Result {
+        .failure(error)
+    }
+    
+    private func success(with result: ExchangeRate) -> RemoteExchangeRateLoader.Result {
+        .success(result)
     }
     
     private func makeSUT(url: URL = URL(string: "http://anyURL.com")!) -> (sut: RemoteExchangeRateLoader, spy: HTTPClientSpy) {
