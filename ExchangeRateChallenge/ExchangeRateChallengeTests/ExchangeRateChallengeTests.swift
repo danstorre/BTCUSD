@@ -41,7 +41,7 @@ enum RemoteExchangeRateMapper {
 
 class RemoteExchangeRateLoader {
     typealias Result = Swift.Result<ExchangeRate, Error>
-    private let client: HTTPClientSpy
+    private let client: HTTPClient
     private let url: URL
     
     enum Error: Swift.Error {
@@ -49,7 +49,7 @@ class RemoteExchangeRateLoader {
         case invalidData
     }
     
-    init(client: HTTPClientSpy, url: URL) {
+    init(client: HTTPClient, url: URL) {
         self.client = client
         self.url = url
     }
@@ -66,13 +66,17 @@ class RemoteExchangeRateLoader {
     }
 }
 
-// TODO: Move this result into HTTPClientSpy.
-class HTTPClientSpy {
-    enum HTTPClientResult {
-        case success((HTTPURLResponse, Data))
-        case failure(Error)
-    }
+enum HTTPClientResult {
+    case success((HTTPURLResponse, Data))
+    case failure(Error)
+}
 
+protocol HTTPClient {
+    typealias HTTPClientCompletion = (HTTPClientResult) -> Void
+    func getData(from url: URL, completion: @escaping HTTPClientCompletion)
+}
+
+class HTTPClientSpy: HTTPClient {
     typealias HTTPClientCompletion = (HTTPClientResult) -> Void
     var loadMessageCallCount: Int {
         requestedURLs.count
