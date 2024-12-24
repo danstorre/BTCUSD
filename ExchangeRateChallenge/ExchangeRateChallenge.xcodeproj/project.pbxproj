@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB692ADD2D1B20A900B56289 /* RemoteExchangeRateMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB692ADC2D1B20A800B56289 /* RemoteExchangeRateMapper.swift */; };
+		FB692ADF2D1B215F00B56289 /* ExchangeRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB692ADE2D1B215E00B56289 /* ExchangeRate.swift */; };
+		FB692AE12D1B217100B56289 /* RemoteExchangeRateLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB692AE02D1B217000B56289 /* RemoteExchangeRateLoader.swift */; };
+		FB692AE32D1B217F00B56289 /* HTTPClientResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB692AE22D1B217E00B56289 /* HTTPClientResult.swift */; };
+		FB692AE62D1B21DE00B56289 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB692AE42D1B218900B56289 /* HTTPClient.swift */; };
 		FBE9C6602D0270E300B58529 /* ExchangeRateChallenge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBE9C6572D0270E300B58529 /* ExchangeRateChallenge.framework */; };
 		FBE9C6652D0270E300B58529 /* ExchangeRateChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE9C6642D0270E300B58529 /* ExchangeRateChallengeTests.swift */; };
 		FBE9C6662D0270E300B58529 /* ExchangeRateChallenge.h in Headers */ = {isa = PBXBuildFile; fileRef = FBE9C65A2D0270E300B58529 /* ExchangeRateChallenge.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -23,6 +28,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FB692ADC2D1B20A800B56289 /* RemoteExchangeRateMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteExchangeRateMapper.swift; sourceTree = "<group>"; };
+		FB692ADE2D1B215E00B56289 /* ExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRate.swift; sourceTree = "<group>"; };
+		FB692AE02D1B217000B56289 /* RemoteExchangeRateLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteExchangeRateLoader.swift; sourceTree = "<group>"; };
+		FB692AE22D1B217E00B56289 /* HTTPClientResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientResult.swift; sourceTree = "<group>"; };
+		FB692AE42D1B218900B56289 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		FBE9C6572D0270E300B58529 /* ExchangeRateChallenge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ExchangeRateChallenge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBE9C65A2D0270E300B58529 /* ExchangeRateChallenge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExchangeRateChallenge.h; sourceTree = "<group>"; };
 		FBE9C65F2D0270E300B58529 /* ExchangeRateChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExchangeRateChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,6 +58,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB692AE72D1B24BE00B56289 /* Exchange Rate Feature */ = {
+			isa = PBXGroup;
+			children = (
+				FB692ADE2D1B215E00B56289 /* ExchangeRate.swift */,
+				FB692AE82D1B24E300B56289 /* Exchange Rate Remote Loader */,
+			);
+			path = "Exchange Rate Feature";
+			sourceTree = "<group>";
+		};
+		FB692AE82D1B24E300B56289 /* Exchange Rate Remote Loader */ = {
+			isa = PBXGroup;
+			children = (
+				FB692AE42D1B218900B56289 /* HTTPClient.swift */,
+				FB692AE22D1B217E00B56289 /* HTTPClientResult.swift */,
+				FB692ADC2D1B20A800B56289 /* RemoteExchangeRateMapper.swift */,
+				FB692AE02D1B217000B56289 /* RemoteExchangeRateLoader.swift */,
+			);
+			path = "Exchange Rate Remote Loader";
+			sourceTree = "<group>";
+		};
 		FBE9C64D2D0270E300B58529 = {
 			isa = PBXGroup;
 			children = (
@@ -69,6 +99,7 @@
 		FBE9C6592D0270E300B58529 /* ExchangeRateChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				FB692AE72D1B24BE00B56289 /* Exchange Rate Feature */,
 				FBE9C65A2D0270E300B58529 /* ExchangeRateChallenge.h */,
 			);
 			path = ExchangeRateChallenge;
@@ -144,6 +175,7 @@
 				TargetAttributes = {
 					FBE9C6562D0270E300B58529 = {
 						CreatedOnToolsVersion = 15.3;
+						LastSwiftMigration = 1610;
 					};
 					FBE9C65E2D0270E300B58529 = {
 						CreatedOnToolsVersion = 15.3;
@@ -191,6 +223,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB692ADF2D1B215F00B56289 /* ExchangeRate.swift in Sources */,
+				FB692AE62D1B21DE00B56289 /* HTTPClient.swift in Sources */,
+				FB692ADD2D1B20A900B56289 /* RemoteExchangeRateMapper.swift in Sources */,
+				FB692AE12D1B217100B56289 /* RemoteExchangeRateLoader.swift in Sources */,
+				FB692AE32D1B217F00B56289 /* HTTPClientResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +378,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -366,6 +404,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -374,6 +413,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
