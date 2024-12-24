@@ -158,8 +158,7 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
             price: 103312.60000000
         )
         
-        // TODO: create helper method to encode the remote JSON object.
-        let data = try JSONSerialization.data(withJSONObject: remoteModel)
+        let data = try encode(remoteModel)
         
         expect(sut: sut, toCompleteWith: success(with: model), when: {
             spy.completes(statusCode: 200, data: data)
@@ -187,6 +186,10 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         }
         
         action()
+    }
+    
+    private func encode(_ json: [String: Any]) throws -> Data {
+        try JSONSerialization.data(withJSONObject: json)
     }
     
     private func failure(_ error: RemoteExchangeRateLoader.Error) -> RemoteExchangeRateLoader.Result {
