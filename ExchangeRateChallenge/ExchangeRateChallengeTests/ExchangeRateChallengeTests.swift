@@ -59,7 +59,7 @@ class RemoteExchangeRateLoader {
             switch result {
             case let .success((response, data)): 
                 completion(RemoteExchangeRateMapper.map(response: response, data: data))
-            case let .failure(error):
+            case .failure:
                 completion(.failure(.noConnectivity))
             }
         }
