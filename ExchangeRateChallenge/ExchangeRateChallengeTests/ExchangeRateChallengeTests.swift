@@ -10,6 +10,30 @@ struct ExchangeRate: Equatable {
     }
 }
 
+enum RemoteExchangeRateMapper {
+    private struct RemoteExchangeRate: Decodable {
+        let symbol: String
+        let price: Double
+        
+        var item: ExchangeRate {
+            ExchangeRate(
+                symbol: symbol,
+                price: price
+            )
+        }
+    }
+    
+    static func map(response: HTTPURLResponse, data: Data) -> RemoteExchangeRateLoader.Result {
+        // TODO: check statusCode in a helper method.
+        guard response.statusCode == 200, let exchangeRate = try? JSONDecoder().decode(RemoteExchangeRate.self, from: data) else {
+            return .failure(.invalidData)
+        }
+        
+        return .success(exchangeRate.item)
+    }
+}
+
+
 class RemoteExchangeRateLoader {
     typealias Result = Swift.Result<ExchangeRate, Error>
     private let client: HTTPClientSpy
@@ -29,33 +53,11 @@ class RemoteExchangeRateLoader {
         client.getData(from: url) { result in
             switch result {
             case let .success((response, data)): 
-                completion(Self.map(response: response, data: data))
+                completion(RemoteExchangeRateMapper.map(response: response, data: data))
             case let .failure(error):
                 completion(.failure(.noConnectivity))
             }
         }
-    }
-    
-    // TODO: move mapping into another type.
-    struct RemoteExchangeRate: Decodable {
-        let symbol: String
-        let price: Double
-        
-        var item: ExchangeRate {
-            ExchangeRate(
-                symbol: symbol,
-                price: price
-            )
-        }
-    }
-    
-    private static func map(response: HTTPURLResponse, data: Data) -> Result {
-        // TODO: check statusCode in a helper method.
-        guard response.statusCode == 200, let exchangeRate = try? JSONDecoder().decode(RemoteExchangeRate.self, from: data) else {
-            return .failure(.invalidData)
-        }
-        
-        return .success(exchangeRate.item)
     }
 }
 
