@@ -1,9 +1,13 @@
 import XCTest
 
 struct ExchangeRate: Equatable {
-    // TODO: Make private stored properties.
-    let symbol: String
-    let price: Double
+    private let symbol: String
+    private let price: Double
+    
+    init(symbol: String, price: Double) {
+        self.symbol = symbol
+        self.price = price
+    }
 }
 
 class RemoteExchangeRateLoader {
