@@ -17,7 +17,7 @@ enum RemoteExchangeRateMapper {
         guard Self.isOK(httpStatusCode: response.statusCode),
               let exchangeRate = try? JSONDecoder().decode(RemoteExchangeRate.self, from: data)
         else {
-            return .failure(.invalidData)
+            return .failure(RemoteExchangeRateLoader.Error.invalidData)
         }
         
         return .success(exchangeRate.item)

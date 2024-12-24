@@ -1,7 +1,6 @@
 import Foundation
 
-public class RemoteExchangeRateLoader {
-    public typealias Result = Swift.Result<ExchangeRate, Error>
+public class RemoteExchangeRateLoader: ExchangeRateLoader {
     private let client: HTTPClient
     private let url: URL
     
@@ -15,13 +14,13 @@ public class RemoteExchangeRateLoader {
         self.url = url
     }
     
-    public func load(completion: @escaping (Result) -> Void) {
+    public func load(completion: @escaping (ExchangeRateLoader.Result) -> Void) {
         client.getData(from: url) { result in
             switch result {
             case let .success((response, data)):
                 completion(RemoteExchangeRateMapper.map(response: response, data: data))
             case .failure:
-                completion(.failure(.noConnectivity))
+                completion(.failure(Error.noConnectivity))
             }
         }
     }

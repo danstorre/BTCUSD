@@ -84,17 +84,17 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         try JSONSerialization.data(withJSONObject: json)
     }
     
-    private func failure(_ error: RemoteExchangeRateLoader.Error) -> RemoteExchangeRateLoader.Result {
+    private func failure(_ error: RemoteExchangeRateLoader.Error) -> ExchangeRateLoader.Result {
         .failure(error)
     }
     
-    private func success(with result: ExchangeRate) -> RemoteExchangeRateLoader.Result {
+    private func success(with result: ExchangeRate) -> ExchangeRateLoader.Result {
         .success(result)
     }
     
     private func expect(
-        sut: RemoteExchangeRateLoader,
-        toCompleteWith expectedResult: RemoteExchangeRateLoader.Result,
+        sut: ExchangeRateLoader,
+        toCompleteWith expectedResult: ExchangeRateLoader.Result,
         when action: @escaping () -> Void, file: StaticString = #filePath,
                    line: UInt = #line) {
                        
@@ -103,8 +103,8 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
             case let (.success(receivedResult), .success(expectedResult)):
                 XCTAssertEqual(receivedResult, expectedResult, "Expected \(expectedResult), got \(String(describing: receivedResult)) instead", file: file, line: line)
             
-            case let (.failure(receivedError), .failure(expectedError)):
-                XCTAssertEqual(receivedError, expectedError, "Expected \(expectedError) error, got \(String(describing: receivedError)) instead", file: file, line: line)
+            case let (.failure(receivedError as NSError), .failure(expectedError as NSError)):
+                XCTAssertEqual(receivedError.code, expectedError.code, "Expected \(expectedError) error, got \(String(describing: receivedError)) instead", file: file, line: line)
                 
             default:
                 XCTFail("Expected \(expectedResult), got \(receivedResult) instead", file: file, line: line)
@@ -114,7 +114,7 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         action()
     }
     
-    private func makeSUT(url: URL = URL(string: "http://anyURL.com")!) -> (sut: RemoteExchangeRateLoader, spy: HTTPClientSpy) {
+    private func makeSUT(url: URL = URL(string: "http://anyURL.com")!) -> (sut: ExchangeRateLoader, spy: HTTPClientSpy) {
         let spy = HTTPClientSpy()
         let sut = RemoteExchangeRateLoader(client: spy, url: url)
         return (sut, spy)
