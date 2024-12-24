@@ -146,8 +146,16 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
     
     func test_load_on200HTTPResponseWithItemData_deliversExchangeRate() throws {
         let (sut, spy) = makeSUT()
+        let exchangeRate = createExchangeRate(symbol: "BTCUSDT", price: 103312.60000000)
+        let data = try encode(exchangeRate.remote)
         
-        // TODO: create helper methods to create a tuple for remote/model object.
+        expect(sut: sut, toCompleteWith: success(with: exchangeRate.model), when: {
+            spy.completes(statusCode: 200, data: data)
+        })
+    }
+    
+    // MARK: - Helpers
+    private func createExchangeRate(symbol: String, price: Double) -> (model: ExchangeRate, remote: [String: Any]) {
         let remoteModel: [String: Any] = [
             "symbol": "BTCUSDT",
             "price": 103312.60000000
@@ -158,14 +166,21 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
             price: 103312.60000000
         )
         
-        let data = try encode(remoteModel)
-        
-        expect(sut: sut, toCompleteWith: success(with: model), when: {
-            spy.completes(statusCode: 200, data: data)
-        })
+        return (model, remoteModel)
     }
     
-    // MARK: - Helpers
+    private func encode(_ json: [String: Any]) throws -> Data {
+        try JSONSerialization.data(withJSONObject: json)
+    }
+    
+    private func failure(_ error: RemoteExchangeRateLoader.Error) -> RemoteExchangeRateLoader.Result {
+        .failure(error)
+    }
+    
+    private func success(with result: ExchangeRate) -> RemoteExchangeRateLoader.Result {
+        .success(result)
+    }
+    
     private func expect(
         sut: RemoteExchangeRateLoader,
         toCompleteWith expectedResult: RemoteExchangeRateLoader.Result,
@@ -186,18 +201,6 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         }
         
         action()
-    }
-    
-    private func encode(_ json: [String: Any]) throws -> Data {
-        try JSONSerialization.data(withJSONObject: json)
-    }
-    
-    private func failure(_ error: RemoteExchangeRateLoader.Error) -> RemoteExchangeRateLoader.Result {
-        .failure(error)
-    }
-    
-    private func success(with result: ExchangeRate) -> RemoteExchangeRateLoader.Result {
-        .success(result)
     }
     
     private func makeSUT(url: URL = URL(string: "http://anyURL.com")!) -> (sut: RemoteExchangeRateLoader, spy: HTTPClientSpy) {
