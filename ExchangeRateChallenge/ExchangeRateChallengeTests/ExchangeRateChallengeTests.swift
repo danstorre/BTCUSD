@@ -114,9 +114,13 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         action()
     }
     
-    private func makeSUT(url: URL = URL(string: "http://anyURL.com")!) -> (sut: ExchangeRateLoader, spy: HTTPClientSpy) {
+    private func makeSUT(url: URL = URL(string: "http://anyURL.com")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: ExchangeRateLoader, spy: HTTPClientSpy) {
         let spy = HTTPClientSpy()
         let sut = RemoteExchangeRateLoader(client: spy, url: url)
+        
+        trackForMemoryLeaks(spy, file: file, line: line)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        
         return (sut, spy)
     }
     
