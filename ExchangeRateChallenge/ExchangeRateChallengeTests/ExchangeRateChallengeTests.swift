@@ -65,6 +65,22 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         })
     }
     
+    func test_onDeallocation_shouldNotDeliverResult() {
+        let spy = HTTPClientSpy()
+        let url = URL(string: "https://www.anyURL.com")!
+        var sut: RemoteExchangeRateLoader? = RemoteExchangeRateLoader(client: spy, url: url)
+        var receivedResult: Result<ExchangeRate, Error>?
+        
+        sut?.load { result in
+            receivedResult = result
+        }
+        sut = nil
+        
+        spy.completes(statusCode: 200)
+        
+        XCTAssertNil(receivedResult, "Exchange rate should not be delivered when deallocated")
+    }
+    
     // MARK: - Helpers
     private func createExchangeRate(symbol: String, price: Double) -> (model: ExchangeRate, remote: [String: Any]) {
         let remoteModel: [String: Any] = [

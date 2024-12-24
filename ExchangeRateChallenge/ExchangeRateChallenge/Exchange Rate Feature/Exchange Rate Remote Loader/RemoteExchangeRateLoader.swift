@@ -15,7 +15,8 @@ public class RemoteExchangeRateLoader: ExchangeRateLoader {
     }
     
     public func load(completion: @escaping (ExchangeRateLoader.Result) -> Void) {
-        client.getData(from: url) { result in
+        client.getData(from: url) { [weak self] result in
+            guard self != nil else { return }
             switch result {
             case let .success((response, data)):
                 completion(RemoteExchangeRateMapper.map(response: response, data: data))
