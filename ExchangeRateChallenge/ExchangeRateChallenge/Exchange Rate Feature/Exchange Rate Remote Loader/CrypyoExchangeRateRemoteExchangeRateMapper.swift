@@ -2,7 +2,6 @@ import Foundation
 
 public enum CryptoExchangeRateRemoteExchangeRateMapper {
     public enum Error: Swift.Error {
-        case noConnectivity
         case invalidData
     }
     
