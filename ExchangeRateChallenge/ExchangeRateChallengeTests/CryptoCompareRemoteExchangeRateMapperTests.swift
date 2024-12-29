@@ -47,7 +47,7 @@ final class CryptoCompareRemoteExchangeRateMapperTests: XCTestCase {
         try JSONSerialization.data(withJSONObject: json)
     }
     
-    private func failure(_ error: CryptoExchangeRateRemoteExchangeRateLoader.Error) -> ExchangeRateLoader.Result {
+    private func failure(_ error: CryptoExchangeRateRemoteExchangeRateMapper.Error) -> ExchangeRateLoader.Result {
         .failure(error)
     }
     

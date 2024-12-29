@@ -40,11 +40,11 @@ public enum CryptoExchangeRateRemoteExchangeRateMapper {
         }
     }
     
-    public static func map(response: HTTPURLResponse, data: Data) -> CryptoExchangeRateRemoteExchangeRateLoader.Result {
+    public static func map(response: HTTPURLResponse, data: Data) -> ExchangeRateLoader.Result {
         guard Self.isOK(httpStatusCode: response.statusCode),
               let exchangeRate = try? JSONDecoder().decode(Root.self, from: data)
         else {
-            return .failure(CryptoExchangeRateRemoteExchangeRateLoader.Error.invalidData)
+            return .failure(Error.invalidData)
         }
         
         return .success(exchangeRate.item)

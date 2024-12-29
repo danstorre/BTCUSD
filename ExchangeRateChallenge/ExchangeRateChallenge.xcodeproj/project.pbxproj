@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FB18AB852D20DFDD00237782 /* CryptoExchangeRemoteExchangeRateLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB18AB842D20DFD900237782 /* CryptoExchangeRemoteExchangeRateLoader.swift */; };
 		FB18AB872D20DFFE00237782 /* CrypyoExchangeRateRemoteExchangeRateMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB18AB862D20DFFD00237782 /* CrypyoExchangeRateRemoteExchangeRateMapper.swift */; };
 		FB18AB882D20E16B00237782 /* CryptoCompareRemoteExchangeRateMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1631712D20DEAA00D31675 /* CryptoCompareRemoteExchangeRateMapperTests.swift */; };
 		FB18AB8B2D20E82200237782 /* RemoteLoaderChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB18AB8A2D20E81800237782 /* RemoteLoaderChallengeTests.swift */; };
@@ -35,7 +34,6 @@
 
 /* Begin PBXFileReference section */
 		FB1631712D20DEAA00D31675 /* CryptoCompareRemoteExchangeRateMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoCompareRemoteExchangeRateMapperTests.swift; sourceTree = "<group>"; };
-		FB18AB842D20DFD900237782 /* CryptoExchangeRemoteExchangeRateLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoExchangeRemoteExchangeRateLoader.swift; sourceTree = "<group>"; };
 		FB18AB862D20DFFD00237782 /* CrypyoExchangeRateRemoteExchangeRateMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrypyoExchangeRateRemoteExchangeRateMapper.swift; sourceTree = "<group>"; };
 		FB18AB8A2D20E81800237782 /* RemoteLoaderChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoaderChallengeTests.swift; sourceTree = "<group>"; };
 		FB18AB8C2D20F04A00237782 /* RemoteLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoader.swift; sourceTree = "<group>"; };
@@ -94,7 +92,6 @@
 			isa = PBXGroup;
 			children = (
 				FB18AB862D20DFFD00237782 /* CrypyoExchangeRateRemoteExchangeRateMapper.swift */,
-				FB18AB842D20DFD900237782 /* CryptoExchangeRemoteExchangeRateLoader.swift */,
 				FB692ADC2D1B20A800B56289 /* BinanceRemoteExchangeRateMapper.swift */,
 			);
 			path = "Exchange Rate Remote Loader";
@@ -255,7 +252,6 @@
 				FB18AB872D20DFFE00237782 /* CrypyoExchangeRateRemoteExchangeRateMapper.swift in Sources */,
 				FB692AE62D1B21DE00B56289 /* HTTPClient.swift in Sources */,
 				FB692ADD2D1B20A900B56289 /* BinanceRemoteExchangeRateMapper.swift in Sources */,
-				FB18AB852D20DFDD00237782 /* CryptoExchangeRemoteExchangeRateLoader.swift in Sources */,
 				FB692AE32D1B217F00B56289 /* HTTPClientResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,7 +8,6 @@ public class RemoteLoader<T> {
     
     public enum Error: Swift.Error {
         case noConnectivity
-        case invalidData
     }
     
     public init(client: HTTPClient, url: URL, mapper: @escaping ((response: HTTPURLResponse, data: Data)) -> Result) {
