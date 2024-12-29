@@ -1,7 +1,7 @@
 import XCTest
 import ExchangeRateChallenge
 
-final class BinanceRemoteMapperExchangeRateLoaderTests: XCTestCase {
+final class BinanceRemoteExchangeRateMapperTests: XCTestCase {
     
     func test_load_onNon2xxHTTPResponse_deliversInvalidDataError() {
         let samples = [199, 300, 400, 404, 500]
