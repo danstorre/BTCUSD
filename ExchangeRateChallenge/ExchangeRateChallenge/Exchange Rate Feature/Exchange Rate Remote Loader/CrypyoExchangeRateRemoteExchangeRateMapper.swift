@@ -1,6 +1,11 @@
 import Foundation
 
-enum CryptoExchangeRateRemoteExchangeRateMapper {
+public enum CryptoExchangeRateRemoteExchangeRateMapper {
+    public enum Error: Swift.Error {
+        case noConnectivity
+        case invalidData
+    }
+    
     private struct Root: Decodable {
         let raw: RemoteExchangeRate
         
@@ -35,7 +40,7 @@ enum CryptoExchangeRateRemoteExchangeRateMapper {
         }
     }
     
-    static func map(response: HTTPURLResponse, data: Data) -> CryptoExchangeRateRemoteExchangeRateLoader.Result {
+    public static func map(response: HTTPURLResponse, data: Data) -> CryptoExchangeRateRemoteExchangeRateLoader.Result {
         guard Self.isOK(httpStatusCode: response.statusCode),
               let exchangeRate = try? JSONDecoder().decode(Root.self, from: data)
         else {

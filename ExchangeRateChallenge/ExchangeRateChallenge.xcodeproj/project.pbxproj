@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		FB18AB852D20DFDD00237782 /* CryptoExchangeRemoteExchangeRateLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB18AB842D20DFD900237782 /* CryptoExchangeRemoteExchangeRateLoader.swift */; };
 		FB18AB872D20DFFE00237782 /* CrypyoExchangeRateRemoteExchangeRateMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB18AB862D20DFFD00237782 /* CrypyoExchangeRateRemoteExchangeRateMapper.swift */; };
-		FB18AB882D20E16B00237782 /* CryptoCompareRemoteExchangeRateLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1631712D20DEAA00D31675 /* CryptoCompareRemoteExchangeRateLoaderTests.swift */; };
+		FB18AB882D20E16B00237782 /* CryptoCompareRemoteExchangeRateMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1631712D20DEAA00D31675 /* CryptoCompareRemoteExchangeRateMapperTests.swift */; };
 		FB18AB8B2D20E82200237782 /* RemoteLoaderChallengeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB18AB8A2D20E81800237782 /* RemoteLoaderChallengeTests.swift */; };
 		FB18AB8D2D20F04A00237782 /* RemoteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB18AB8C2D20F04A00237782 /* RemoteLoader.swift */; };
 		FB692ADD2D1B20A900B56289 /* BinanceRemoteExchangeRateMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB692ADC2D1B20A800B56289 /* BinanceRemoteExchangeRateMapper.swift */; };
@@ -34,7 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FB1631712D20DEAA00D31675 /* CryptoCompareRemoteExchangeRateLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoCompareRemoteExchangeRateLoaderTests.swift; sourceTree = "<group>"; };
+		FB1631712D20DEAA00D31675 /* CryptoCompareRemoteExchangeRateMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoCompareRemoteExchangeRateMapperTests.swift; sourceTree = "<group>"; };
 		FB18AB842D20DFD900237782 /* CryptoExchangeRemoteExchangeRateLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoExchangeRemoteExchangeRateLoader.swift; sourceTree = "<group>"; };
 		FB18AB862D20DFFD00237782 /* CrypyoExchangeRateRemoteExchangeRateMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrypyoExchangeRateRemoteExchangeRateMapper.swift; sourceTree = "<group>"; };
 		FB18AB8A2D20E81800237782 /* RemoteLoaderChallengeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoaderChallengeTests.swift; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 			children = (
 				FB18AB8A2D20E81800237782 /* RemoteLoaderChallengeTests.swift */,
 				FBE9C6642D0270E300B58529 /* BinanceRemoteExchangeRateChallengeTests.swift */,
-				FB1631712D20DEAA00D31675 /* CryptoCompareRemoteExchangeRateLoaderTests.swift */,
+				FB1631712D20DEAA00D31675 /* CryptoCompareRemoteExchangeRateMapperTests.swift */,
 				FB692AEB2D1B26B200B56289 /* XCTestCase+MemoryLeakTracking.swift */,
 			);
 			path = ExchangeRateChallengeTests;
@@ -264,7 +264,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB18AB882D20E16B00237782 /* CryptoCompareRemoteExchangeRateLoaderTests.swift in Sources */,
+				FB18AB882D20E16B00237782 /* CryptoCompareRemoteExchangeRateMapperTests.swift in Sources */,
 				FBE9C6652D0270E300B58529 /* BinanceRemoteExchangeRateChallengeTests.swift in Sources */,
 				FB18AB8B2D20E82200237782 /* RemoteLoaderChallengeTests.swift in Sources */,
 				FB692AEC2D1B26B300B56289 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
