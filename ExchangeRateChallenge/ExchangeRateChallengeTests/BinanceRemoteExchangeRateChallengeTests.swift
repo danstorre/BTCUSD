@@ -1,7 +1,7 @@
 import XCTest
 import ExchangeRateChallenge
 
-final class RemoteExchangeRateLoaderTests: XCTestCase {
+final class BinanceRemoteExchangeRateLoaderTests: XCTestCase {
     
     func test_init_doesNotMessageHTTPClient() {
         let (_, spy) = makeSUT()
