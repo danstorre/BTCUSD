@@ -1,6 +1,10 @@
 import Foundation
 
-enum BinanceRemoteExchangeRateMapper {
+public enum BinanceRemoteExchangeRateMapper {
+    public enum Error: Swift.Error {
+        case invalidData
+    }
+    
     private struct RemoteExchangeRate: Decodable {
         let symbol: String
         let price: Double
@@ -13,11 +17,11 @@ enum BinanceRemoteExchangeRateMapper {
         }
     }
     
-    static func map(response: HTTPURLResponse, data: Data) -> BinanceRemoteExchangeRateLoader.Result {
+    public static func map(response: HTTPURLResponse, data: Data) -> BinanceRemoteExchangeRateLoader.Result {
         guard Self.isOK(httpStatusCode: response.statusCode),
               let exchangeRate = try? JSONDecoder().decode(RemoteExchangeRate.self, from: data)
         else {
-            return .failure(BinanceRemoteExchangeRateLoader.Error.invalidData)
+            return .failure(BinanceRemoteExchangeRateMapper.Error.invalidData)
         }
         
         return .success(exchangeRate.item)
