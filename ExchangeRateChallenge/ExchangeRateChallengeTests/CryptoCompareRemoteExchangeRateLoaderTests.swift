@@ -68,7 +68,7 @@ final class CryptoCompareRemoteExchangeRateLoaderTests: XCTestCase {
     func test_onDeallocation_shouldNotDeliverResult() {
         let spy = HTTPClientSpy()
         let url = URL(string: "https://www.anyURL.com")!
-        var sut: BinanceRemoteExchangeRateLoader? = BinanceRemoteExchangeRateLoader(client: spy, url: url)
+        var sut: CryptoExchangeRateRemoteExchangeRateLoader? = CryptoExchangeRateRemoteExchangeRateLoader(client: spy, url: url)
         var receivedResult: Result<ExchangeRate, Error>?
         
         sut?.load { result in
@@ -103,7 +103,7 @@ final class CryptoCompareRemoteExchangeRateLoaderTests: XCTestCase {
         try JSONSerialization.data(withJSONObject: json)
     }
     
-    private func failure(_ error: BinanceRemoteExchangeRateLoader.Error) -> ExchangeRateLoader.Result {
+    private func failure(_ error: CryptoExchangeRateRemoteExchangeRateLoader.Error) -> ExchangeRateLoader.Result {
         .failure(error)
     }
     

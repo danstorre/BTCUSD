@@ -17,7 +17,7 @@ public enum BinanceRemoteExchangeRateMapper {
         }
     }
     
-    public static func map(response: HTTPURLResponse, data: Data) -> BinanceRemoteExchangeRateLoader.Result {
+    public static func map(response: HTTPURLResponse, data: Data) -> ExchangeRateLoader.Result {
         guard Self.isOK(httpStatusCode: response.statusCode),
               let exchangeRate = try? JSONDecoder().decode(RemoteExchangeRate.self, from: data)
         else {

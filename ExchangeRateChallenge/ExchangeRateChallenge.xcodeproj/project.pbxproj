@@ -14,7 +14,6 @@
 		FB18AB8D2D20F04A00237782 /* RemoteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB18AB8C2D20F04A00237782 /* RemoteLoader.swift */; };
 		FB692ADD2D1B20A900B56289 /* BinanceRemoteExchangeRateMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB692ADC2D1B20A800B56289 /* BinanceRemoteExchangeRateMapper.swift */; };
 		FB692ADF2D1B215F00B56289 /* ExchangeRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB692ADE2D1B215E00B56289 /* ExchangeRate.swift */; };
-		FB692AE12D1B217100B56289 /* BinanceRemoteExchangeRateLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB692AE02D1B217000B56289 /* BinanceRemoteExchangeRateLoader.swift */; };
 		FB692AE32D1B217F00B56289 /* HTTPClientResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB692AE22D1B217E00B56289 /* HTTPClientResult.swift */; };
 		FB692AE62D1B21DE00B56289 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB692AE42D1B218900B56289 /* HTTPClient.swift */; };
 		FB692AEA2D1B252E00B56289 /* ExchangeRateLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB692AE92D1B252200B56289 /* ExchangeRateLoader.swift */; };
@@ -42,7 +41,6 @@
 		FB18AB8C2D20F04A00237782 /* RemoteLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteLoader.swift; sourceTree = "<group>"; };
 		FB692ADC2D1B20A800B56289 /* BinanceRemoteExchangeRateMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinanceRemoteExchangeRateMapper.swift; sourceTree = "<group>"; };
 		FB692ADE2D1B215E00B56289 /* ExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRate.swift; sourceTree = "<group>"; };
-		FB692AE02D1B217000B56289 /* BinanceRemoteExchangeRateLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinanceRemoteExchangeRateLoader.swift; sourceTree = "<group>"; };
 		FB692AE22D1B217E00B56289 /* HTTPClientResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientResult.swift; sourceTree = "<group>"; };
 		FB692AE42D1B218900B56289 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		FB692AE92D1B252200B56289 /* ExchangeRateLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateLoader.swift; sourceTree = "<group>"; };
@@ -98,7 +96,6 @@
 				FB18AB862D20DFFD00237782 /* CrypyoExchangeRateRemoteExchangeRateMapper.swift */,
 				FB18AB842D20DFD900237782 /* CryptoExchangeRemoteExchangeRateLoader.swift */,
 				FB692ADC2D1B20A800B56289 /* BinanceRemoteExchangeRateMapper.swift */,
-				FB692AE02D1B217000B56289 /* BinanceRemoteExchangeRateLoader.swift */,
 			);
 			path = "Exchange Rate Remote Loader";
 			sourceTree = "<group>";
@@ -259,7 +256,6 @@
 				FB692AE62D1B21DE00B56289 /* HTTPClient.swift in Sources */,
 				FB692ADD2D1B20A900B56289 /* BinanceRemoteExchangeRateMapper.swift in Sources */,
 				FB18AB852D20DFDD00237782 /* CryptoExchangeRemoteExchangeRateLoader.swift in Sources */,
-				FB692AE12D1B217100B56289 /* BinanceRemoteExchangeRateLoader.swift in Sources */,
 				FB692AE32D1B217F00B56289 /* HTTPClientResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
