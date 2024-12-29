@@ -68,6 +68,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB18AB892D20E72A00237782 /* HTTPClient */ = {
+			isa = PBXGroup;
+			children = (
+				FB692AE42D1B218900B56289 /* HTTPClient.swift */,
+				FB692AE22D1B217E00B56289 /* HTTPClientResult.swift */,
+			);
+			path = HTTPClient;
+			sourceTree = "<group>";
+		};
 		FB692AE72D1B24BE00B56289 /* Exchange Rate Feature */ = {
 			isa = PBXGroup;
 			children = (
@@ -83,8 +92,6 @@
 			children = (
 				FB18AB862D20DFFD00237782 /* CrypyoExchangeRateRemoteExchangeRateMapper.swift */,
 				FB18AB842D20DFD900237782 /* CryptoExchangeRemoteExchangeRateLoader.swift */,
-				FB692AE42D1B218900B56289 /* HTTPClient.swift */,
-				FB692AE22D1B217E00B56289 /* HTTPClientResult.swift */,
 				FB692ADC2D1B20A800B56289 /* BinanceRemoteExchangeRateMapper.swift */,
 				FB692AE02D1B217000B56289 /* BinanceRemoteExchangeRateLoader.swift */,
 			);
@@ -112,6 +119,7 @@
 		FBE9C6592D0270E300B58529 /* ExchangeRateChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				FB18AB892D20E72A00237782 /* HTTPClient */,
 				FB692AE72D1B24BE00B56289 /* Exchange Rate Feature */,
 				FBE9C65A2D0270E300B58529 /* ExchangeRateChallenge.h */,
 			);
