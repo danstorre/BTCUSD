@@ -68,7 +68,7 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
     func test_onDeallocation_shouldNotDeliverResult() {
         let spy = HTTPClientSpy()
         let url = URL(string: "https://www.anyURL.com")!
-        var sut: RemoteExchangeRateLoader? = RemoteExchangeRateLoader(client: spy, url: url)
+        var sut: BinanceRemoteExchangeRateLoader? = BinanceRemoteExchangeRateLoader(client: spy, url: url)
         var receivedResult: Result<ExchangeRate, Error>?
         
         sut?.load { result in
@@ -100,7 +100,7 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
         try JSONSerialization.data(withJSONObject: json)
     }
     
-    private func failure(_ error: RemoteExchangeRateLoader.Error) -> ExchangeRateLoader.Result {
+    private func failure(_ error: BinanceRemoteExchangeRateLoader.Error) -> ExchangeRateLoader.Result {
         .failure(error)
     }
     
@@ -132,7 +132,7 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
     
     private func makeSUT(url: URL = URL(string: "http://anyURL.com")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: ExchangeRateLoader, spy: HTTPClientSpy) {
         let spy = HTTPClientSpy()
-        let sut = RemoteExchangeRateLoader(client: spy, url: url)
+        let sut = BinanceRemoteExchangeRateLoader(client: spy, url: url)
         
         trackForMemoryLeaks(spy, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)

@@ -1,6 +1,6 @@
 import Foundation
 
-public class RemoteExchangeRateLoader: ExchangeRateLoader {
+public class BinanceRemoteExchangeRateLoader: ExchangeRateLoader {
     private let client: HTTPClient
     private let url: URL
     
@@ -19,7 +19,7 @@ public class RemoteExchangeRateLoader: ExchangeRateLoader {
             guard self != nil else { return }
             switch result {
             case let .success((response, data)):
-                completion(RemoteExchangeRateMapper.map(response: response, data: data))
+                completion(BinanceRemoteExchangeRateMapper.map(response: response, data: data))
             case .failure:
                 completion(.failure(Error.noConnectivity))
             }
