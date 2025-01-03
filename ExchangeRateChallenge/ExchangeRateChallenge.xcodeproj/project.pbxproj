@@ -81,7 +81,6 @@
 		FB692AE72D1B24BE00B56289 /* Exchange Rate Feature */ = {
 			isa = PBXGroup;
 			children = (
-				FB692AE92D1B252200B56289 /* ExchangeRateLoader.swift */,
 				FB692ADE2D1B215E00B56289 /* ExchangeRate.swift */,
 				FB692AE82D1B24E300B56289 /* Exchange Rate Remote Loader */,
 			);
@@ -91,6 +90,7 @@
 		FB692AE82D1B24E300B56289 /* Exchange Rate Remote Loader */ = {
 			isa = PBXGroup;
 			children = (
+				FB692AE92D1B252200B56289 /* ExchangeRateLoader.swift */,
 				FB18AB862D20DFFD00237782 /* CrypyoExchangeRateRemoteExchangeRateMapper.swift */,
 				FB692ADC2D1B20A800B56289 /* BinanceRemoteExchangeRateMapper.swift */,
 			);
