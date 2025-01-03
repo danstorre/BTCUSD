@@ -97,6 +97,24 @@
 			path = "Exchange Rate Remote Loader";
 			sourceTree = "<group>";
 		};
+		FB7F77CF2D2763A900F4506C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				FB692AEB2D1B26B200B56289 /* XCTestCase+MemoryLeakTracking.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		FB7F77D02D2763AD00F4506C /* Remote Exchange Rate Loader */ = {
+			isa = PBXGroup;
+			children = (
+				FB18AB8A2D20E81800237782 /* RemoteExchangeRateLoaderTests.swift */,
+				FBE9C6642D0270E300B58529 /* BinanceRemoteExchangeRateMapperTests.swift */,
+				FB1631712D20DEAA00D31675 /* CryptoCompareRemoteExchangeRateMapperTests.swift */,
+			);
+			path = "Remote Exchange Rate Loader";
+			sourceTree = "<group>";
+		};
 		FBE9C64D2D0270E300B58529 = {
 			isa = PBXGroup;
 			children = (
@@ -128,10 +146,8 @@
 		FBE9C6632D0270E300B58529 /* ExchangeRateChallengeTests */ = {
 			isa = PBXGroup;
 			children = (
-				FB18AB8A2D20E81800237782 /* RemoteExchangeRateLoaderTests.swift */,
-				FBE9C6642D0270E300B58529 /* BinanceRemoteExchangeRateMapperTests.swift */,
-				FB1631712D20DEAA00D31675 /* CryptoCompareRemoteExchangeRateMapperTests.swift */,
-				FB692AEB2D1B26B200B56289 /* XCTestCase+MemoryLeakTracking.swift */,
+				FB7F77CF2D2763A900F4506C /* Helpers */,
+				FB7F77D02D2763AD00F4506C /* Remote Exchange Rate Loader */,
 			);
 			path = ExchangeRateChallengeTests;
 			sourceTree = "<group>";
