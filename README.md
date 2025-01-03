@@ -84,8 +84,8 @@ Exchange rate
 - System deletes stored data.
 - System encodes exchange rate value.
 - System timestamps new cache data.
-- System saves new cache data.
-- System delivers success message.
+- System inserts new cache data.
+- System delivers nothing.
 
 #### Deletion error - Error course 
 System delivers error
