@@ -16,6 +16,7 @@ class CacheExchangeRate {
     
     enum Error: Swift.Error {
         case deletionError(Swift.Error)
+        case insertionError(Swift.Error)
     }
     
     init(store: StoreSpy) {
@@ -29,7 +30,11 @@ class CacheExchangeRate {
             throw Error.deletionError(error)
         }
         
-        store.insert(exchangeRate: exchangeRate.local)
+        do {
+            try store.insert(exchangeRate: exchangeRate.local)
+        } catch {
+            throw Error.insertionError(error)
+        }
     }
 }
 
@@ -49,18 +54,23 @@ class StoreSpy {
         case insertion(exchangeRate: CacheExchangeRate.LocalExchangeRate)
     }
     
-    var stubbedResult: Error?
+    var stubbedDeletionError: Error?
+    var stubbedInsertionError: Error?
     
     func delete() throws {
         messages.append(.deletion)
         
-        if let stubbedResult {
-            throw stubbedResult
+        if let stubbedDeletionError {
+            throw stubbedDeletionError
         }
     }
     
-    func insert(exchangeRate: CacheExchangeRate.LocalExchangeRate) {
+    func insert(exchangeRate: CacheExchangeRate.LocalExchangeRate) throws {
         messages.append(.insertion(exchangeRate: exchangeRate))
+        
+        if let stubbedInsertionError {
+            throw stubbedInsertionError
+        }
     }
 }
 
@@ -76,7 +86,7 @@ final class CacheExchangeRateTests: XCTestCase {
         let (sut, spy) = makeSUT()
         let exchangeRate = createAnyModel().model
         let anyError = createAnyError()
-        spy.stubbedResult = createAnyError()
+        spy.stubbedDeletionError = createAnyError()
         
         XCTAssertThrowsError(try sut.cache(exchangeRate: exchangeRate)) { error in
             if case CacheExchangeRate.Error.deletionError(let error) = error {
@@ -95,6 +105,22 @@ final class CacheExchangeRateTests: XCTestCase {
         try? sut.cache(exchangeRate: exchangeRate.model)
         
         XCTAssertEqual(spy.messages, [.deletion, .insertion(exchangeRate: exchangeRate.local)])
+    }
+    
+    func test_onCache_onInsertionError_deliversInsertionError() {
+        let (sut, spy) = makeSUT()
+        let exchangeRate = createAnyModel().model
+        let anyError = createAnyError()
+        spy.stubbedInsertionError = createAnyError()
+        
+        XCTAssertThrowsError(try sut.cache(exchangeRate: exchangeRate)) { error in
+            if case CacheExchangeRate.Error.insertionError(let error) = error {
+                XCTAssertEqual((error as NSError).domain, (anyError).domain)
+                XCTAssertEqual((error as NSError).code, (anyError).code)
+            } else {
+                XCTFail()
+            }
+        }
     }
     
     // MARK: - Helpers
