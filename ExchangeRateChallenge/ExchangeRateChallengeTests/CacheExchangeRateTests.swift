@@ -88,14 +88,11 @@ final class CacheExchangeRateTests: XCTestCase {
         let anyError = createAnyError()
         spy.stubbedDeletionError = createAnyError()
         
-        XCTAssertThrowsError(try sut.cache(exchangeRate: exchangeRate)) { error in
-            if case CacheExchangeRate.Error.deletionError(let error) = error {
-                XCTAssertEqual((error as NSError).domain, (anyError).domain)
-                XCTAssertEqual((error as NSError).code, (anyError).code)
-            } else {
-                XCTFail()
-            }
-        }
+        assertCacheThrowsError(
+            for: sut,
+            exchangeRate: exchangeRate,
+            expectedErrorCase: .deletionError(anyError)
+        )
     }
     
     func test_onCache_sendsCorrectMessagesToStore() {
@@ -113,17 +110,37 @@ final class CacheExchangeRateTests: XCTestCase {
         let anyError = createAnyError()
         spy.stubbedInsertionError = createAnyError()
         
+        assertCacheThrowsError(
+            for: sut,
+            exchangeRate: exchangeRate,
+            expectedErrorCase: .insertionError(anyError)
+        )
+    }
+    
+    // MARK: - Helpers
+    private func assertCacheThrowsError(
+        for sut: CacheExchangeRate,
+        exchangeRate: ExchangeRate,
+        expectedErrorCase: CacheExchangeRate.Error,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
         XCTAssertThrowsError(try sut.cache(exchangeRate: exchangeRate)) { error in
-            if case CacheExchangeRate.Error.insertionError(let error) = error {
-                XCTAssertEqual((error as NSError).domain, (anyError).domain)
-                XCTAssertEqual((error as NSError).code, (anyError).code)
-            } else {
-                XCTFail()
+            switch (expectedErrorCase, error as! CacheExchangeRate.Error) {
+            case (.insertionError(let expectedError), .insertionError(let error)):
+                XCTAssertEqual((expectedError as NSError).domain, (error as NSError).domain, file: file, line: line)
+                XCTAssertEqual((expectedError as NSError).code, (error as NSError).code, file: file, line: line)
+                
+            case (.deletionError(let expectedError), .deletionError(let error)):
+                XCTAssertEqual((expectedError as NSError).domain, (error as NSError).domain, file: file, line: line)
+                XCTAssertEqual((expectedError as NSError).code, (error as NSError).code, file: file, line: line)
+                
+            default:
+                XCTFail("Expected \(expectedErrorCase), got \(error) instead")
             }
         }
     }
     
-    // MARK: - Helpers
     private func createAnyModel() -> (model: ExchangeRate,
                                       local: CacheExchangeRate.LocalExchangeRate) {
         let exchangeRate = ExchangeRate(symbol: "any", price: 1)
