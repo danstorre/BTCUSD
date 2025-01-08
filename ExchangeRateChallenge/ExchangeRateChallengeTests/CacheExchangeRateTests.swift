@@ -50,35 +50,6 @@ protocol ExchangeRateStore {
     func insert(exchangeRate: CacheExchangeRate.LocalExchangeRate) throws
 }
 
-class StoreSpy: ExchangeRateStore {
-    private(set) var messages: [AnyMessage] = []
-    private(set) var cacheCallCount: Int = 0
-    
-    enum AnyMessage: Equatable {
-        case deletion
-        case insertion(exchangeRate: CacheExchangeRate.LocalExchangeRate)
-    }
-    
-    var stubbedDeletionError: Error?
-    var stubbedInsertionError: Error?
-    
-    func delete() throws {
-        messages.append(.deletion)
-        
-        if let stubbedDeletionError {
-            throw stubbedDeletionError
-        }
-    }
-    
-    func insert(exchangeRate: CacheExchangeRate.LocalExchangeRate) throws {
-        messages.append(.insertion(exchangeRate: exchangeRate))
-        
-        if let stubbedInsertionError {
-            throw stubbedInsertionError
-        }
-    }
-}
-
 final class CacheExchangeRateTests: XCTestCase {
     
     func test_init_doesNotMessageStore() {
@@ -168,5 +139,34 @@ final class CacheExchangeRateTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         
         return (sut, spy)
+    }
+    
+    private class StoreSpy: ExchangeRateStore {
+        private(set) var messages: [AnyMessage] = []
+        private(set) var cacheCallCount: Int = 0
+        
+        enum AnyMessage: Equatable {
+            case deletion
+            case insertion(exchangeRate: CacheExchangeRate.LocalExchangeRate)
+        }
+        
+        var stubbedDeletionError: Error?
+        var stubbedInsertionError: Error?
+        
+        func delete() throws {
+            messages.append(.deletion)
+            
+            if let stubbedDeletionError {
+                throw stubbedDeletionError
+            }
+        }
+        
+        func insert(exchangeRate: CacheExchangeRate.LocalExchangeRate) throws {
+            messages.append(.insertion(exchangeRate: exchangeRate))
+            
+            if let stubbedInsertionError {
+                throw stubbedInsertionError
+            }
+        }
     }
 }
