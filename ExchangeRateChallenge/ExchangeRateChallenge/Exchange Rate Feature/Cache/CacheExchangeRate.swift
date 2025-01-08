@@ -11,14 +11,14 @@ public class CacheExchangeRate {
         }
     }
     
-    private let store: ExchangeRateStore
+    private let store: LocalExchangeRateStore
     
     public enum Error: Swift.Error {
         case deletionError(Swift.Error)
         case insertionError(Swift.Error)
     }
     
-    public init(store: ExchangeRateStore) {
+    public init(store: LocalExchangeRateStore) {
         self.store = store
     }
     

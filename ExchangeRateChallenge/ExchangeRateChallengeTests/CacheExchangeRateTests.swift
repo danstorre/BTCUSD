@@ -92,7 +92,7 @@ final class CacheExchangeRateTests: XCTestCase {
         return (sut, spy)
     }
     
-    private class StoreSpy: ExchangeRateStore {
+    private class StoreSpy: LocalExchangeRateStore {
         private(set) var messages: [AnyMessage] = []
         private(set) var cacheCallCount: Int = 0
         
