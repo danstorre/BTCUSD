@@ -87,8 +87,8 @@
 		FB692AE72D1B24BE00B56289 /* Exchange Rate Feature */ = {
 			isa = PBXGroup;
 			children = (
-				FB7F77D62D2DF8BA00F4506C /* Cache */,
 				FB692ADE2D1B215E00B56289 /* ExchangeRate.swift */,
+				FB7F77D62D2DF8BA00F4506C /* Cache */,
 				FB692AE82D1B24E300B56289 /* Remote Loader */,
 			);
 			path = "Exchange Rate Feature";
