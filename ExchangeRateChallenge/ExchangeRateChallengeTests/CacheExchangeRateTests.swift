@@ -12,14 +12,14 @@ class CacheExchangeRate {
         }
     }
     
-    private let store: StoreSpy
+    private let store: ExchangeRateStore
     
     enum Error: Swift.Error {
         case deletionError(Swift.Error)
         case insertionError(Swift.Error)
     }
     
-    init(store: StoreSpy) {
+    init(store: ExchangeRateStore) {
         self.store = store
     }
     
@@ -45,7 +45,12 @@ private extension ExchangeRate {
     }
 }
 
-class StoreSpy {
+protocol ExchangeRateStore {
+    func delete() throws
+    func insert(exchangeRate: CacheExchangeRate.LocalExchangeRate) throws
+}
+
+class StoreSpy: ExchangeRateStore {
     private(set) var messages: [AnyMessage] = []
     private(set) var cacheCallCount: Int = 0
     
