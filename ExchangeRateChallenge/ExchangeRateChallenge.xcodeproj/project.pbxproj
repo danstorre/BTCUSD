@@ -139,6 +139,15 @@
 			path = Cache;
 			sourceTree = "<group>";
 		};
+		FBC343E82D3098BB000894A9 /* Cache Exchange Rate */ = {
+			isa = PBXGroup;
+			children = (
+				FBC343E12D308F7A000894A9 /* LoadCacheExchangeRateTests.swift */,
+				FB7F77D12D2763F400F4506C /* CacheExchangeRateTests.swift */,
+			);
+			path = "Cache Exchange Rate";
+			sourceTree = "<group>";
+		};
 		FBE9C64D2D0270E300B58529 = {
 			isa = PBXGroup;
 			children = (
@@ -170,9 +179,8 @@
 		FBE9C6632D0270E300B58529 /* ExchangeRateChallengeTests */ = {
 			isa = PBXGroup;
 			children = (
-				FBC343E12D308F7A000894A9 /* LoadCacheExchangeRateTests.swift */,
-				FB7F77D12D2763F400F4506C /* CacheExchangeRateTests.swift */,
 				FB7F77CF2D2763A900F4506C /* Helpers */,
+				FBC343E82D3098BB000894A9 /* Cache Exchange Rate */,
 				FB7F77D02D2763AD00F4506C /* Remote Exchange Rate Loader */,
 			);
 			path = ExchangeRateChallengeTests;
