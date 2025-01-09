@@ -19,6 +19,23 @@ public class CacheExchangeRate {
 }
 
 extension CacheExchangeRate {
+    public enum LoadError: Swift.Error {
+        case loadError(Swift.Error)
+    }
+    
+    public func loadCache() throws -> ExchangeRate? {
+        do {
+            guard let local = try store.retrieve() else {
+                return .none
+            }
+            return ExchangeRate(symbol: local.symbol, price: local.price)
+        } catch {
+            throw LoadError.loadError(error)
+        }
+    }
+}
+
+extension CacheExchangeRate {
     public enum SaveError: Swift.Error {
         case deletionError(Swift.Error)
         case insertionError(Swift.Error)

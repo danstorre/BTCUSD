@@ -1,64 +1,55 @@
 import XCTest
 import ExchangeRateChallenge
 
-final class CacheExchangeRateTests: XCTestCase {
+final class LoadCacheExchangeRateTests: XCTestCase {
     
     func test_init_doesNotMessageStore() {
         let (_, spy) = makeSUT()
         
-        XCTAssertEqual(spy.cacheCallCount, 0)
+        XCTAssertEqual(spy.loadCacheCallCount, 0)
     }
     
-    func test_onCache_onDeletionError_deliversDeletionError() {
+    func test_onLoadCache_onRetrievalError_deliversLoadError() {
         let (sut, spy) = makeSUT()
         let exchangeRate = createAnyModel().model
         let anyError = createAnyError()
-        spy.stubbedDeletionError = createAnyError()
+        spy.stubbedRetrievalError = createAnyError()
         
-        assertCacheThrowsError(
+        assertLoadCacheThrowsError(
             for: sut,
             exchangeRate: exchangeRate,
-            expectedErrorCase: .deletionError(anyError)
+            expectedErrorCase: .loadError(anyError)
         )
     }
-    
-    func test_onCache_sendsCorrectMessagesToStore() {
+
+    func test_onLoadCache_sendsCorrectMessagesToStore() {
         let (sut, spy) = makeSUT()
-        let exchangeRate = createAnyModel()
         
-        try? sut.cache(exchangeRate: exchangeRate.model)
+        _ = try? sut.loadCache()
         
-        XCTAssertEqual(spy.messages, [.deletion, .insertion(exchangeRate: exchangeRate.local)])
+        XCTAssertEqual(spy.messages, [.retrieve])
     }
-    
-    func test_onCache_onInsertionError_deliversInsertionError() {
+
+    func test_onLoadCache_onEmptyStore_deliversNoItems() throws {
         let (sut, spy) = makeSUT()
-        let exchangeRate = createAnyModel().model
-        let anyError = createAnyError()
-        spy.stubbedInsertionError = createAnyError()
+        spy.stubbedRetrievalItems = .none
         
-        assertCacheThrowsError(
-            for: sut,
-            exchangeRate: exchangeRate,
-            expectedErrorCase: .insertionError(anyError)
-        )
+        let result = try sut.loadCache()
+        
+        XCTAssertEqual(result, nil)
     }
     
     // MARK: - Helpers
-    private func assertCacheThrowsError(
+    private func assertLoadCacheThrowsError(
         for sut: CacheExchangeRate,
         exchangeRate: ExchangeRate,
-        expectedErrorCase: CacheExchangeRate.SaveError,
+        expectedErrorCase: CacheExchangeRate.LoadError,
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
-        XCTAssertThrowsError(try sut.cache(exchangeRate: exchangeRate)) { error in
-            switch (expectedErrorCase, error as! CacheExchangeRate.SaveError) {
-            case (.insertionError(let expectedError), .insertionError(let error)):
-                XCTAssertEqual((expectedError as NSError).domain, (error as NSError).domain, file: file, line: line)
-                XCTAssertEqual((expectedError as NSError).code, (error as NSError).code, file: file, line: line)
-                
-            case (.deletionError(let expectedError), .deletionError(let error)):
+        XCTAssertThrowsError(try sut.loadCache(), file: file, line: line) { error in
+            switch (expectedErrorCase, error as! CacheExchangeRate.LoadError) {
+            case (.loadError(let expectedError), .loadError(let error)):
                 XCTAssertEqual((expectedError as NSError).domain, (error as NSError).domain, file: file, line: line)
                 XCTAssertEqual((expectedError as NSError).code, (error as NSError).code, file: file, line: line)
                 
@@ -93,20 +84,19 @@ final class CacheExchangeRateTests: XCTestCase {
     }
     
     private class StoreSpy: LocalExchangeRateStore {
-        func retrieve() throws -> ExchangeRateChallenge.CacheExchangeRate.LocalExchangeRate? {
-            return .none
-        }
-        
         private(set) var messages: [AnyMessage] = []
-        private(set) var cacheCallCount: Int = 0
+        private(set) var loadCacheCallCount: Int = 0
         
         enum AnyMessage: Equatable {
             case deletion
             case insertion(exchangeRate: CacheExchangeRate.LocalExchangeRate)
+            case retrieve
         }
         
+        var stubbedRetrievalError: Error?
         var stubbedDeletionError: Error?
         var stubbedInsertionError: Error?
+        var stubbedRetrievalItems: CacheExchangeRate.LocalExchangeRate?
         
         func delete() throws {
             messages.append(.deletion)
@@ -124,8 +114,14 @@ final class CacheExchangeRateTests: XCTestCase {
             }
         }
         
-        func retrieve() throws {
+        func retrieve() throws -> CacheExchangeRate.LocalExchangeRate? {
+            messages.append(.retrieve)
             
+            if let stubbedRetrievalError {
+                throw stubbedRetrievalError
+            }
+            
+            return stubbedRetrievalItems
         }
     }
 }
