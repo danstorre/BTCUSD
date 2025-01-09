@@ -106,6 +106,7 @@ none
 - System delivers exchange rate value.
 
 #### Retrieval error - Error course 
+System emties store.
 System delivers error
 
 #### Empty cache - Error Course
