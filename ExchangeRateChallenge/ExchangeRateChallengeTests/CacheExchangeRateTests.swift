@@ -6,7 +6,7 @@ final class CacheExchangeRateTests: XCTestCase {
     func test_init_doesNotMessageStore() {
         let (_, spy) = makeSUT()
         
-        XCTAssertEqual(spy.cacheCallCount, 0)
+        XCTAssertEqual(spy.insertCallCount, 0)
     }
     
     func test_onCache_onDeletionError_deliversDeletionError() {
@@ -68,17 +68,6 @@ final class CacheExchangeRateTests: XCTestCase {
         }
     }
     
-    private func createAnyModel() -> (model: ExchangeRate,
-                                      local: CacheExchangeRate.LocalExchangeRate) {
-        let exchangeRate = ExchangeRate(symbol: "any", price: 1)
-        let local = CacheExchangeRate.LocalExchangeRate(symbol: "any", price: 1)
-        return (exchangeRate, local)
-    }
-    
-    private func createAnyError() -> NSError {
-        return NSError(domain: "any", code: 1)
-    }
-    
     private func makeSUT(
         file: StaticString = #filePath,
         line: UInt = #line
@@ -90,42 +79,5 @@ final class CacheExchangeRateTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         
         return (sut, spy)
-    }
-    
-    private class StoreSpy: LocalExchangeRateStore {
-        func retrieve() throws -> ExchangeRateChallenge.CacheExchangeRate.LocalExchangeRate? {
-            return .none
-        }
-        
-        private(set) var messages: [AnyMessage] = []
-        private(set) var cacheCallCount: Int = 0
-        
-        enum AnyMessage: Equatable {
-            case deletion
-            case insertion(exchangeRate: CacheExchangeRate.LocalExchangeRate)
-        }
-        
-        var stubbedDeletionError: Error?
-        var stubbedInsertionError: Error?
-        
-        func delete() throws {
-            messages.append(.deletion)
-            
-            if let stubbedDeletionError {
-                throw stubbedDeletionError
-            }
-        }
-        
-        func insert(exchangeRate: CacheExchangeRate.LocalExchangeRate) throws {
-            messages.append(.insertion(exchangeRate: exchangeRate))
-            
-            if let stubbedInsertionError {
-                throw stubbedInsertionError
-            }
-        }
-        
-        func retrieve() throws {
-            
-        }
     }
 }

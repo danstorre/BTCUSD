@@ -26,17 +26,25 @@ on deallocation (serial execution does not need deallocation test):
 Load Cache exchange rate:
 
 On Init:
- 	Does not execute side effects.
+ 	✅Does not execute side effects.
 
 On load command:
-	Check load messages are sent correctly.
-	On load error deliver insertion error.
-	Check values are correct from store retrieval.
+	✅Check load messages are sent correctly.
+	✅On load error deliver insertion error.
+	✅ Check values are correct from store retrieval.
+		✅ Check values when empty.
+		✅ Check when invalid retrieve.
 
 on load Success:
-	Delivers items.
+	✅ Delivers items.
 
 on deallocation (serial execution does not need deallocation test):
 	✅ does not deliver result.
 
-Tracks memory leaks.
+✅ Tracks memory leaks.
+
+Refactor Helper methods from Tests:
+
+- createAnyModel()
+- createAnyError()
+- StoreSpy: LocalExchangeRateStore

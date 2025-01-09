@@ -21,6 +21,8 @@
 		FB7F77D82D2DF8C000F4506C /* CacheExchangeRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7F77D72D2DF8BF00F4506C /* CacheExchangeRate.swift */; };
 		FB7F77DA2D2DF91000F4506C /* LocalExchangeRateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7F77D92D2DF91000F4506C /* LocalExchangeRateStore.swift */; };
 		FBC343E22D308F81000894A9 /* LoadCacheExchangeRateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC343E12D308F7A000894A9 /* LoadCacheExchangeRateTests.swift */; };
+		FBC343E52D3097CA000894A9 /* FactoryExchangeRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC343E42D3097C2000894A9 /* FactoryExchangeRate.swift */; };
+		FBC343E72D30980D000894A9 /* StoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC343E62D30980B000894A9 /* StoreSpy.swift */; };
 		FBE9C6602D0270E300B58529 /* ExchangeRateChallenge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBE9C6572D0270E300B58529 /* ExchangeRateChallenge.framework */; };
 		FBE9C6652D0270E300B58529 /* BinanceRemoteExchangeRateMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE9C6642D0270E300B58529 /* BinanceRemoteExchangeRateMapperTests.swift */; };
 		FBE9C6662D0270E300B58529 /* ExchangeRateChallenge.h in Headers */ = {isa = PBXBuildFile; fileRef = FBE9C65A2D0270E300B58529 /* ExchangeRateChallenge.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -51,6 +53,8 @@
 		FB7F77D72D2DF8BF00F4506C /* CacheExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheExchangeRate.swift; sourceTree = "<group>"; };
 		FB7F77D92D2DF91000F4506C /* LocalExchangeRateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalExchangeRateStore.swift; sourceTree = "<group>"; };
 		FBC343E12D308F7A000894A9 /* LoadCacheExchangeRateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadCacheExchangeRateTests.swift; sourceTree = "<group>"; };
+		FBC343E42D3097C2000894A9 /* FactoryExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryExchangeRate.swift; sourceTree = "<group>"; };
+		FBC343E62D30980B000894A9 /* StoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSpy.swift; sourceTree = "<group>"; };
 		FBE9C6572D0270E300B58529 /* ExchangeRateChallenge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ExchangeRateChallenge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBE9C65A2D0270E300B58529 /* ExchangeRateChallenge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExchangeRateChallenge.h; sourceTree = "<group>"; };
 		FBE9C65F2D0270E300B58529 /* ExchangeRateChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExchangeRateChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +113,8 @@
 		FB7F77CF2D2763A900F4506C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				FBC343E62D30980B000894A9 /* StoreSpy.swift */,
+				FBC343E42D3097C2000894A9 /* FactoryExchangeRate.swift */,
 				FB692AEB2D1B26B200B56289 /* XCTestCase+MemoryLeakTracking.swift */,
 			);
 			path = Helpers;
@@ -300,10 +306,12 @@
 			files = (
 				FBC343E22D308F81000894A9 /* LoadCacheExchangeRateTests.swift in Sources */,
 				FB18AB882D20E16B00237782 /* CryptoCompareRemoteExchangeRateMapperTests.swift in Sources */,
+				FBC343E72D30980D000894A9 /* StoreSpy.swift in Sources */,
 				FB7F77D22D27640100F4506C /* CacheExchangeRateTests.swift in Sources */,
 				FBE9C6652D0270E300B58529 /* BinanceRemoteExchangeRateMapperTests.swift in Sources */,
 				FB18AB8B2D20E82200237782 /* RemoteExchangeRateLoaderTests.swift in Sources */,
 				FB692AEC2D1B26B300B56289 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
+				FBC343E52D3097CA000894A9 /* FactoryExchangeRate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
