@@ -39,6 +39,15 @@ final class LoadCacheExchangeRateTests: XCTestCase {
         XCTAssertEqual(result, nil)
     }
     
+    func test_onLoadCache_onInvalidStore_emptiesStore() throws {
+        let (sut, spy) = makeSUT()
+        spy.stubbedRetrievalError = createAnyError()
+        
+        _ = try? sut.loadCache()
+        
+        XCTAssertEqual(spy.messages, [.retrieve, .deletion])
+    }
+    
     // MARK: - Helpers
     private func assertLoadCacheThrowsError(
         for sut: CacheExchangeRate,

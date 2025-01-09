@@ -30,6 +30,7 @@ extension CacheExchangeRate {
             }
             return ExchangeRate(symbol: local.symbol, price: local.price)
         } catch {
+            try? store.delete()
             throw LoadError.loadError(error)
         }
     }
