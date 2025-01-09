@@ -48,12 +48,12 @@ final class CacheExchangeRateTests: XCTestCase {
     private func assertCacheThrowsError(
         for sut: CacheExchangeRate,
         exchangeRate: ExchangeRate,
-        expectedErrorCase: CacheExchangeRate.Error,
+        expectedErrorCase: CacheExchangeRate.SaveError,
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
         XCTAssertThrowsError(try sut.cache(exchangeRate: exchangeRate)) { error in
-            switch (expectedErrorCase, error as! CacheExchangeRate.Error) {
+            switch (expectedErrorCase, error as! CacheExchangeRate.SaveError) {
             case (.insertionError(let expectedError), .insertionError(let error)):
                 XCTAssertEqual((expectedError as NSError).domain, (error as NSError).domain, file: file, line: line)
                 XCTAssertEqual((expectedError as NSError).code, (error as NSError).code, file: file, line: line)

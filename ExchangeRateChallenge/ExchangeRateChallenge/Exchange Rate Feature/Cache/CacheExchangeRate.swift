@@ -13,26 +13,28 @@ public class CacheExchangeRate {
     
     private let store: LocalExchangeRateStore
     
-    public enum Error: Swift.Error {
-        case deletionError(Swift.Error)
-        case insertionError(Swift.Error)
-    }
-    
     public init(store: LocalExchangeRateStore) {
         self.store = store
+    }
+}
+
+extension CacheExchangeRate {
+    public enum SaveError: Swift.Error {
+        case deletionError(Swift.Error)
+        case insertionError(Swift.Error)
     }
     
     public func cache(exchangeRate: ExchangeRate) throws {
         do {
             try store.delete()
         } catch {
-            throw Error.deletionError(error)
+            throw SaveError.deletionError(error)
         }
         
         do {
             try store.insert(exchangeRate: exchangeRate.local)
         } catch {
-            throw Error.insertionError(error)
+            throw SaveError.insertionError(error)
         }
     }
 }
