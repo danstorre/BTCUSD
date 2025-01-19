@@ -23,6 +23,7 @@
 		FBC343E22D308F81000894A9 /* LoadCacheExchangeRateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC343E12D308F7A000894A9 /* LoadCacheExchangeRateTests.swift */; };
 		FBC343E52D3097CA000894A9 /* FactoryExchangeRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC343E42D3097C2000894A9 /* FactoryExchangeRate.swift */; };
 		FBC343E72D30980D000894A9 /* StoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC343E62D30980B000894A9 /* StoreSpy.swift */; };
+		FBC343EB2D3DA9A6000894A9 /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC343EA2D3DA9A1000894A9 /* URLSessionHTTPClientTests.swift */; };
 		FBE9C6602D0270E300B58529 /* ExchangeRateChallenge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBE9C6572D0270E300B58529 /* ExchangeRateChallenge.framework */; };
 		FBE9C6652D0270E300B58529 /* BinanceRemoteExchangeRateMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE9C6642D0270E300B58529 /* BinanceRemoteExchangeRateMapperTests.swift */; };
 		FBE9C6662D0270E300B58529 /* ExchangeRateChallenge.h in Headers */ = {isa = PBXBuildFile; fileRef = FBE9C65A2D0270E300B58529 /* ExchangeRateChallenge.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -55,6 +56,7 @@
 		FBC343E12D308F7A000894A9 /* LoadCacheExchangeRateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadCacheExchangeRateTests.swift; sourceTree = "<group>"; };
 		FBC343E42D3097C2000894A9 /* FactoryExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryExchangeRate.swift; sourceTree = "<group>"; };
 		FBC343E62D30980B000894A9 /* StoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSpy.swift; sourceTree = "<group>"; };
+		FBC343EA2D3DA9A1000894A9 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 		FBE9C6572D0270E300B58529 /* ExchangeRateChallenge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ExchangeRateChallenge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBE9C65A2D0270E300B58529 /* ExchangeRateChallenge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExchangeRateChallenge.h; sourceTree = "<group>"; };
 		FBE9C65F2D0270E300B58529 /* ExchangeRateChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExchangeRateChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +150,14 @@
 			path = "Cache Exchange Rate";
 			sourceTree = "<group>";
 		};
+		FBC343E92D3DA99A000894A9 /* HTTPClient Tests */ = {
+			isa = PBXGroup;
+			children = (
+				FBC343EA2D3DA9A1000894A9 /* URLSessionHTTPClientTests.swift */,
+			);
+			path = "HTTPClient Tests";
+			sourceTree = "<group>";
+		};
 		FBE9C64D2D0270E300B58529 = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +189,7 @@
 		FBE9C6632D0270E300B58529 /* ExchangeRateChallengeTests */ = {
 			isa = PBXGroup;
 			children = (
+				FBC343E92D3DA99A000894A9 /* HTTPClient Tests */,
 				FB7F77CF2D2763A900F4506C /* Helpers */,
 				FBC343E82D3098BB000894A9 /* Cache Exchange Rate */,
 				FB7F77D02D2763AD00F4506C /* Remote Exchange Rate Loader */,
@@ -313,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBC343E22D308F81000894A9 /* LoadCacheExchangeRateTests.swift in Sources */,
+				FBC343EB2D3DA9A6000894A9 /* URLSessionHTTPClientTests.swift in Sources */,
 				FB18AB882D20E16B00237782 /* CryptoCompareRemoteExchangeRateMapperTests.swift in Sources */,
 				FBC343E72D30980D000894A9 /* StoreSpy.swift in Sources */,
 				FB7F77D22D27640100F4506C /* CacheExchangeRateTests.swift in Sources */,
