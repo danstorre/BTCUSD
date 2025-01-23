@@ -12,8 +12,8 @@ final class CacheExchangeRateTests: XCTestCase {
     func test_onCache_onDeletionError_deliversDeletionError() {
         let (sut, spy) = makeSUT()
         let exchangeRate = createAnyModel().model
-        let anyError = createAnyError()
-        spy.stubbedDeletionError = createAnyError()
+        let anyError = createNSError()
+        spy.stubbedDeletionError = createNSError()
         
         assertCacheThrowsError(
             for: sut,
@@ -34,8 +34,8 @@ final class CacheExchangeRateTests: XCTestCase {
     func test_onCache_onInsertionError_deliversInsertionError() {
         let (sut, spy) = makeSUT()
         let exchangeRate = createAnyModel().model
-        let anyError = createAnyError()
-        spy.stubbedInsertionError = createAnyError()
+        let anyError = createNSError()
+        spy.stubbedInsertionError = createNSError()
         
         assertCacheThrowsError(
             for: sut,

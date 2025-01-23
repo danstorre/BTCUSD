@@ -34,7 +34,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
     }
     
     func test_getData_performsGETRequestWithURL() {
-        let url = makeAnyURL()
+        let url = createAnyURL()
         let expectation = expectation(description: "wait for url request.")
         
         URLProtocolStub.observeRequest { request in
@@ -49,7 +49,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
     }
     
     func test_getData_onError_DeliversError() {
-        let requestError = NSError(domain: "", code: 1)
+        let requestError = createNSError()
         let receivedError = resultErrorFor(data: nil, response: nil, error: requestError)
     
         XCTAssertEqual((receivedError as? NSError)?.code, requestError.code)
@@ -57,21 +57,16 @@ final class URLSessionHTTPClientTests: XCTestCase {
     }
     
     func test_getData_failsOnAllInvalidRepresentationCases() {
-        let anyData = Data("any data".utf8)
-        let anyError = NSError(domain: "any error", code: 0)
-        let nonHTTPURLResponse = URLResponse(url: makeAnyURL(), mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
-        let anyHTTPURLResponse = HTTPURLResponse(url: makeAnyURL(), statusCode: 200, httpVersion: nil, headerFields: nil)
-        
         XCTAssertNotNil(resultErrorFor(data: nil, response: nil, error: nil))
-        XCTAssertNotNil(resultErrorFor(data: nil, response: nonHTTPURLResponse, error: nil))
-        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPURLResponse, error: nil))
-        XCTAssertNotNil(resultErrorFor(data: anyData, response: nil, error: nil))
-        XCTAssertNotNil(resultErrorFor(data: anyData, response: nil, error: anyError))
-        XCTAssertNotNil(resultErrorFor(data: nil, response: nonHTTPURLResponse, error: anyError))
-        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPURLResponse, error: anyError))
-        XCTAssertNotNil(resultErrorFor(data: anyData, response: nonHTTPURLResponse, error: anyError))
-        XCTAssertNotNil(resultErrorFor(data: anyData, response: anyHTTPURLResponse, error: anyError))
-        XCTAssertNotNil(resultErrorFor(data: anyData, response: anyHTTPURLResponse, error: nil))
+        XCTAssertNotNil(resultErrorFor(data: nil, response: createAnyNonHTTPURLResponse(), error: nil))
+        XCTAssertNotNil(resultErrorFor(data: nil, response: createAnyHTTPURLResponse(), error: nil))
+        XCTAssertNotNil(resultErrorFor(data: createAnyData(), response: nil, error: nil))
+        XCTAssertNotNil(resultErrorFor(data: createAnyData(), response: nil, error: createNSError()))
+        XCTAssertNotNil(resultErrorFor(data: nil, response: createAnyNonHTTPURLResponse(), error: createNSError()))
+        XCTAssertNotNil(resultErrorFor(data: nil, response: createAnyHTTPURLResponse(), error: createNSError()))
+        XCTAssertNotNil(resultErrorFor(data: createAnyData(), response: createAnyNonHTTPURLResponse(), error: createNSError()))
+        XCTAssertNotNil(resultErrorFor(data: createAnyData(), response: createAnyHTTPURLResponse(), error: createNSError()))
+        XCTAssertNotNil(resultErrorFor(data: createAnyData(), response: createAnyHTTPURLResponse(), error: nil))
     }
     
     // MARK: - Helpers
@@ -82,7 +77,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
         let expectation = expectation(description: "waiting for response")
         
         var receivedError: Error?
-        sut.getData(from: makeAnyURL()) { result in
+        sut.getData(from: createAnyURL()) { result in
             switch result {
             case .failure(let error):
                 receivedError = error
@@ -99,8 +94,12 @@ final class URLSessionHTTPClientTests: XCTestCase {
         return receivedError
     }
     
-    private func makeAnyURL() -> URL {
-        URL(string: "http://example.com")!
+    private func createAnyHTTPURLResponse() -> HTTPURLResponse {
+        return HTTPURLResponse(url: createAnyURL(), statusCode: 200, httpVersion: nil, headerFields: nil)!
+    }
+    
+    private func createAnyNonHTTPURLResponse() -> URLResponse {
+        return URLResponse(url: createAnyURL(), mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
     }
     
     private func makeSUT(file: StaticString = #filePath,

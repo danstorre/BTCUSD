@@ -9,8 +9,8 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
     }
     
     func test_load_twice_messagesHTTPClientWithCorrectURLTwice() {
-        let (sut, spy) = makeSUT()
         let url = URL(string: "http://anyURL.com")!
+        let (sut, spy) = makeSUT(url: url)
         
         sut.load { _ in }
         sut.load { _ in }
@@ -20,7 +20,7 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
     
     func test_load_onHTTPClientError_deliversConnectivityError() {
         let (sut, spy) = makeSUT()
-        let anyError = NSError(domain: "", code: 1)
+        let anyError = createNSError()
         
         expect(sut: sut, toCompleteWith: failure(.noConnectivity), when: {
             spy.failsWith(error: anyError)
@@ -89,7 +89,7 @@ final class RemoteExchangeRateLoaderTests: XCTestCase {
     }
     
     private func makeSUT(
-        url: URL = URL(string: "http://anyURL.com")!,
+        url: URL = createAnyURL(),
         mapper: @escaping ((response: HTTPURLResponse, data: Data)) -> Result<String, RemoteLoader<String>.Error> = { _ in .success("")},
         file: StaticString = #filePath,
         line: UInt = #line) -> (sut: RemoteLoader<String>, spy: HTTPClientSpy) {

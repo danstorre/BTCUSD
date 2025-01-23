@@ -7,6 +7,14 @@ func createAnyModel() -> (model: ExchangeRate,
     return (exchangeRate, local)
 }
 
-func createAnyError() -> NSError {
+func createNSError() -> NSError {
     return NSError(domain: "any", code: 1)
+}
+
+func createAnyData() -> Data {
+    return Data("any data".utf8)
+}
+
+func createAnyURL() -> URL {
+   return URL(string: "http://example.com")!
 }

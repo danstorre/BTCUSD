@@ -12,8 +12,8 @@ final class LoadCacheExchangeRateTests: XCTestCase {
     func test_onLoadCache_onRetrievalError_deliversLoadError() {
         let (sut, spy) = makeSUT()
         let exchangeRate = createAnyModel().model
-        let anyError = createAnyError()
-        spy.stubbedRetrievalError = createAnyError()
+        let anyError = createNSError()
+        spy.stubbedRetrievalError = createNSError()
         
         assertLoadCacheThrowsError(
             for: sut,
@@ -41,7 +41,7 @@ final class LoadCacheExchangeRateTests: XCTestCase {
     
     func test_onLoadCache_onInvalidStore_emptiesStore() throws {
         let (sut, spy) = makeSUT()
-        spy.stubbedRetrievalError = createAnyError()
+        spy.stubbedRetrievalError = createNSError()
         
         _ = try? sut.loadCache()
         
