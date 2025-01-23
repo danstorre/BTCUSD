@@ -2,49 +2,11 @@ Test cases
 
 Cache/save exchange rate:
 
-On Init:
- 	✅ Does not execute side effects.
-
-On cache command:
-	✅ Check deletion messages are sent correctly.
-	✅ On deletion error delivers deletion error.
-	✅ Check insertion messages are sent correctly.
-	✅ Check values are correct on insertion.
-	✅ On insertion error deliver insertion error.
-
-on cach Success:
-	✅ Delivers nothing.
-	note: returns void.
-
-on deallocation (serial execution does not need deallocation test):
-	✅ does not deliver result.
-
-✅ Tracks memory leaks.
-
+check timestamp!
 
 ====
 Load Cache exchange rate:
 
-On Init:
- 	✅Does not execute side effects.
+check timestamp!
 
-On load command:
-	✅Check load messages are sent correctly.
-	✅On load error deliver insertion error.
-	✅ Check values are correct from store retrieval.
-		✅ Check values when empty.
-		✅ Check when invalid retrieve.
-
-on load Success:
-	✅ Delivers items.
-
-on deallocation (serial execution does not need deallocation test):
-	✅ does not deliver result.
-
-✅ Tracks memory leaks.
-
-Refactor Helper methods from Tests:
-
-- createAnyModel()
-- createAnyError()
-- StoreSpy: LocalExchangeRateStore
+==== 
