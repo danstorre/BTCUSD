@@ -56,12 +56,26 @@ final class URLSessionHTTPClientTests: XCTestCase {
         XCTAssertEqual((receivedError as? NSError)?.domain, requestError.domain)
     }
     
-    func test_getData_failsOnNilValues() {
+    func test_getData_failsOnAllInvalidRepresentationCases() {
+        let anyData = Data("any data".utf8)
+        let anyError = NSError(domain: "any error", code: 0)
+        let nonHTTPURLResponse = URLResponse(url: makeAnyURL(), mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
+        let anyHTTPURLResponse = HTTPURLResponse(url: makeAnyURL(), statusCode: 200, httpVersion: nil, headerFields: nil)
+        
         XCTAssertNotNil(resultErrorFor(data: nil, response: nil, error: nil))
+        XCTAssertNotNil(resultErrorFor(data: nil, response: nonHTTPURLResponse, error: nil))
+        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPURLResponse, error: nil))
+        XCTAssertNotNil(resultErrorFor(data: anyData, response: nil, error: nil))
+        XCTAssertNotNil(resultErrorFor(data: anyData, response: nil, error: anyError))
+        XCTAssertNotNil(resultErrorFor(data: nil, response: nonHTTPURLResponse, error: anyError))
+        XCTAssertNotNil(resultErrorFor(data: nil, response: anyHTTPURLResponse, error: anyError))
+        XCTAssertNotNil(resultErrorFor(data: anyData, response: nonHTTPURLResponse, error: anyError))
+        XCTAssertNotNil(resultErrorFor(data: anyData, response: anyHTTPURLResponse, error: anyError))
+        XCTAssertNotNil(resultErrorFor(data: anyData, response: anyHTTPURLResponse, error: nil))
     }
     
     // MARK: - Helpers
-    private func resultErrorFor(data: Data?, response: HTTPURLResponse?, error: Error?, file: StaticString = #filePath,
+    private func resultErrorFor(data: Data?, response: URLResponse?, error: Error?, file: StaticString = #filePath,
                                 line: UInt = #line) -> Error? {
         URLProtocolStub.stub(data: data, response: response, error: error)
         let sut = makeSUT(file: file, line: line)
@@ -145,7 +159,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
             Self.stub = nil
         }
         
-        static func stub(data: Data?, response: HTTPURLResponse?, error: Error?) {
+        static func stub(data: Data?, response: URLResponse?, error: Error?) {
             URLProtocolStub.stub = URLProtocolStub.Stub(data: nil, response: nil, error: error)
         }
     }
