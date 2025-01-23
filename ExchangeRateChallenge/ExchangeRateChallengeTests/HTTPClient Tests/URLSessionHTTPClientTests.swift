@@ -8,10 +8,14 @@ class URLSessionHTTPClient {
         self.session = session
     }
     
+    struct UnexpectedValuesRepresentation: Error {}
+    
     func getData(from url: URL, completion: @escaping (HTTPClientResult) -> Void) {
         session.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(error))
+            } else {
+                completion(.failure(UnexpectedValuesRepresentation()))
             }
         }.resume()
     }
@@ -46,7 +50,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
     
     func test_getData_onError_DeliversError() {
         let error = NSError(domain: "", code: 1)
-        URLProtocolStub.stub = URLProtocolStub.Stub(data: nil, response: nil, error: error)
+        URLProtocolStub.stub(data: nil, response: nil, error: error)
         let expectation = expectation(description: "waiting for response")
         
         makeSUT().getData(from: makeAnyURL()) { result in
@@ -56,6 +60,24 @@ final class URLSessionHTTPClientTests: XCTestCase {
                 XCTAssertEqual((receivedError as NSError).domain, error.domain)
             default:
                 XCTFail("expected failuer with error: \(error) but got: \(result)")
+            }
+            
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.0)
+    }
+    
+    func test_getData_failsOnNilValues() {
+        URLProtocolStub.stub(data: nil, response: nil, error: nil)
+        let expectation = expectation(description: "waiting for response")
+        
+        makeSUT().getData(from: makeAnyURL()) { result in
+            switch result {
+            case .failure:
+                break
+            default:
+                XCTFail("expected failure with error")
             }
             
             expectation.fulfill()
@@ -123,6 +145,10 @@ final class URLSessionHTTPClientTests: XCTestCase {
         static func stopInterceptingNetworkCalls() {
             URLProtocol.unregisterClass(URLProtocolStub.self)
             Self.stub = nil
+        }
+        
+        static func stub(data: Data?, response: HTTPURLResponse?, error: Error?) {
+            URLProtocolStub.stub = URLProtocolStub.Stub(data: nil, response: nil, error: error)
         }
     }
 }
