@@ -18,8 +18,18 @@ class URLSessionHTTPClient {
 }
 
 final class URLSessionHTTPClientTests: XCTestCase {
-    func test_getData_performsGETRequestWithURL() {
+    
+    override func setUp() {
+        super.setUp()
         URLProtocolStub.startInterceptingNetworkCalls()
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+        URLProtocolStub.stopInterceptingNetworkCalls()
+    }
+    
+    func test_getData_performsGETRequestWithURL() {
         let url = URL(string: "http://example.com")!
         let expectation = expectation(description: "wait for url request.")
         
@@ -32,12 +42,9 @@ final class URLSessionHTTPClientTests: XCTestCase {
         URLSessionHTTPClient().getData(from: url) { _ in }
         
         wait(for: [expectation], timeout: 1.0)
-        URLProtocolStub.stopInterceptingNetworkCalls()
     }
     
     func test_getData_onError_DeliversError() {
-        URLProtocolStub.startInterceptingNetworkCalls()
-        
         let url = URL(string: "http://example.com")!
         let error = NSError(domain: "", code: 1)
         URLProtocolStub.stub = URLProtocolStub.Stub(data: nil, response: nil, error: error)
@@ -58,7 +65,6 @@ final class URLSessionHTTPClientTests: XCTestCase {
         }
         
         wait(for: [expectation], timeout: 1.0)
-        URLProtocolStub.stopInterceptingNetworkCalls()
     }
     
     class URLProtocolStub: URLProtocol {
