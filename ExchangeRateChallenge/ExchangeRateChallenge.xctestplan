@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "6A814B50-BFDF-4A41-B49C-62C3AC7B3451",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:ExchangeRateChallenge.xcodeproj",
+        "identifier" : "FBE9C65E2D0270E300B58529",
+        "name" : "ExchangeRateChallengeTests"
+      }
+    }
+  ],
+  "version" : 1
+}
