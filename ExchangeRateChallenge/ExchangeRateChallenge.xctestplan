@@ -13,7 +13,7 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:ExchangeRateChallenge.xcodeproj",
         "identifier" : "FBE9C65E2D0270E300B58529",
