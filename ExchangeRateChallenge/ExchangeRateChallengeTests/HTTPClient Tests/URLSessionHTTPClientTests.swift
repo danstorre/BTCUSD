@@ -66,7 +66,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
         XCTAssertNotNil(resultErrorFor(data: nil, response: createAnyHTTPURLResponse(), error: createNSError()))
         XCTAssertNotNil(resultErrorFor(data: createAnyData(), response: createAnyNonHTTPURLResponse(), error: createNSError()))
         XCTAssertNotNil(resultErrorFor(data: createAnyData(), response: createAnyHTTPURLResponse(), error: createNSError()))
-        XCTAssertNotNil(resultErrorFor(data: createAnyData(), response: createAnyHTTPURLResponse(), error: nil))
+        XCTAssertNotNil(resultErrorFor(data: createAnyData(), response: createAnyNonHTTPURLResponse(), error: nil))
     }
     
     // MARK: - Helpers
@@ -160,7 +160,7 @@ final class URLSessionHTTPClientTests: XCTestCase {
         }
         
         static func stub(data: Data?, response: URLResponse?, error: Error?) {
-            URLProtocolStub.stub = URLProtocolStub.Stub(data: nil, response: nil, error: error)
+            URLProtocolStub.stub = URLProtocolStub.Stub(data: data, response: response, error: error)
         }
     }
 }
