@@ -57,6 +57,7 @@
 		FBC343E42D3097C2000894A9 /* FactoryExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryExchangeRate.swift; sourceTree = "<group>"; };
 		FBC343E62D30980B000894A9 /* StoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSpy.swift; sourceTree = "<group>"; };
 		FBC343EA2D3DA9A1000894A9 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
+		FBC3444A2D49AD8C000894A9 /* ExchangeRateChallenge.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ExchangeRateChallenge.xctestplan; sourceTree = "<group>"; };
 		FBE9C6572D0270E300B58529 /* ExchangeRateChallenge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ExchangeRateChallenge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBE9C65A2D0270E300B58529 /* ExchangeRateChallenge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExchangeRateChallenge.h; sourceTree = "<group>"; };
 		FBE9C65F2D0270E300B58529 /* ExchangeRateChallengeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExchangeRateChallengeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +162,7 @@
 		FBE9C64D2D0270E300B58529 = {
 			isa = PBXGroup;
 			children = (
+				FBC3444A2D49AD8C000894A9 /* ExchangeRateChallenge.xctestplan */,
 				FBE9C6592D0270E300B58529 /* ExchangeRateChallenge */,
 				FBE9C6632D0270E300B58529 /* ExchangeRateChallengeTests */,
 				FBE9C6582D0270E300B58529 /* Products */,
