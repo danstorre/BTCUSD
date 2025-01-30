@@ -9,7 +9,15 @@
     }
   ],
   "defaultOptions" : {
-
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:ExchangeRateChallenge.xcodeproj",
+          "identifier" : "FBE9C6562D0270E300B58529",
+          "name" : "ExchangeRateChallenge"
+        }
+      ]
+    }
   },
   "testTargets" : [
     {
