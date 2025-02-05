@@ -1,6 +1,6 @@
 import ExchangeRateChallenge
 
-func createAnyModel() -> (model: ExchangeRate,
+func createAnyExchangeRate() -> (model: ExchangeRate,
                           local: CacheExchangeRate.LocalExchangeRate) {
     let exchangeRate = ExchangeRate(symbol: "any", price: 1)
     let local = CacheExchangeRate.LocalExchangeRate(symbol: "any", price: 1)

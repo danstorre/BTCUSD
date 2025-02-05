@@ -11,7 +11,7 @@ final class CacheExchangeRateTests: XCTestCase {
     
     func test_onCache_onDeletionError_deliversDeletionError() {
         let (sut, spy) = makeSUT()
-        let exchangeRate = createAnyModel().model
+        let exchangeRate = createAnyExchangeRate().model
         let anyError = createNSError()
         spy.stubbedDeletionError = createNSError()
         
@@ -25,7 +25,7 @@ final class CacheExchangeRateTests: XCTestCase {
     func test_onCache_sendsCorrectMessagesToStore() {
         let date = Date()
         let (sut, spy) = makeSUT(currentDate: { date })
-        let exchangeRate = createAnyModel()
+        let exchangeRate = createAnyExchangeRate()
         
         try? sut.cache(exchangeRate: exchangeRate.model)
         
@@ -37,7 +37,7 @@ final class CacheExchangeRateTests: XCTestCase {
     
     func test_onCache_onInsertionError_deliversInsertionError() {
         let (sut, spy) = makeSUT()
-        let exchangeRate = createAnyModel().model
+        let exchangeRate = createAnyExchangeRate().model
         let anyError = createNSError()
         spy.stubbedInsertionError = createNSError()
         
