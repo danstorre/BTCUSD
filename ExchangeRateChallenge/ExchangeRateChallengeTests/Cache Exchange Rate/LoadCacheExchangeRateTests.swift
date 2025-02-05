@@ -79,11 +79,12 @@ final class LoadCacheExchangeRateTests: XCTestCase {
     }
     
     private func makeSUT(
+        currentDate: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (sut: CacheExchangeRate, spy: StoreSpy) {
         let spy = StoreSpy()
-        let sut = CacheExchangeRate(store: spy)
+        let sut = CacheExchangeRate(store: spy, currentDate: currentDate)
         
         trackForMemoryLeaks(spy, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)

@@ -7,7 +7,10 @@ class StoreSpy: LocalExchangeRateStore {
     
     enum AnyMessage: Equatable {
         case deletion
-        case insertion(exchangeRate: CacheExchangeRate.LocalExchangeRate)
+        case insertion(
+            exchangeRate: CacheExchangeRate.LocalExchangeRate,
+            timestamp: Date
+        )
         case retrieve
     }
     
@@ -24,9 +27,9 @@ class StoreSpy: LocalExchangeRateStore {
         }
     }
     
-    func insert(exchangeRate: CacheExchangeRate.LocalExchangeRate) throws {
+    func insert(exchangeRate: CacheExchangeRate.LocalExchangeRate, timestamp: Date) throws {
         insertCallCount += 1
-        messages.append(.insertion(exchangeRate: exchangeRate))
+        messages.append(.insertion(exchangeRate: exchangeRate, timestamp: timestamp))
         
         if let stubbedInsertionError {
             throw stubbedInsertionError

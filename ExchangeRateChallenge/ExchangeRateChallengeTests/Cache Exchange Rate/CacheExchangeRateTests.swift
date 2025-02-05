@@ -23,12 +23,16 @@ final class CacheExchangeRateTests: XCTestCase {
     }
     
     func test_onCache_sendsCorrectMessagesToStore() {
-        let (sut, spy) = makeSUT()
+        let date = Date()
+        let (sut, spy) = makeSUT(currentDate: { date })
         let exchangeRate = createAnyModel()
         
         try? sut.cache(exchangeRate: exchangeRate.model)
         
-        XCTAssertEqual(spy.messages, [.deletion, .insertion(exchangeRate: exchangeRate.local)])
+        XCTAssertEqual(spy.messages, [
+            .deletion,
+            .insertion(exchangeRate: exchangeRate.local, timestamp: date)
+        ])
     }
     
     func test_onCache_onInsertionError_deliversInsertionError() {
@@ -69,11 +73,12 @@ final class CacheExchangeRateTests: XCTestCase {
     }
     
     private func makeSUT(
+        currentDate: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (sut: CacheExchangeRate, spy: StoreSpy) {
         let spy = StoreSpy()
-        let sut = CacheExchangeRate(store: spy)
+        let sut = CacheExchangeRate(store: spy, currentDate: currentDate)
         
         trackForMemoryLeaks(spy, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)

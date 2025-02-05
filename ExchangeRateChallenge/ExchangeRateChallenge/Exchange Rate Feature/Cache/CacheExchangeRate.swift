@@ -12,9 +12,11 @@ public class CacheExchangeRate {
     }
     
     private let store: LocalExchangeRateStore
+    private let currentDate: () -> Date
     
-    public init(store: LocalExchangeRateStore) {
+    public init(store: LocalExchangeRateStore, currentDate: @escaping () -> Date) {
         self.store = store
+        self.currentDate = currentDate
     }
 }
 
@@ -50,7 +52,7 @@ extension CacheExchangeRate {
         }
         
         do {
-            try store.insert(exchangeRate: exchangeRate.local)
+            try store.insert(exchangeRate: exchangeRate.local, timestamp: currentDate())
         } catch {
             throw SaveError.insertionError(error)
         }
