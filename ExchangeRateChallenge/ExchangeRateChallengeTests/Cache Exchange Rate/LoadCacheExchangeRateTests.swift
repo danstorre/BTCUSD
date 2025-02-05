@@ -36,7 +36,7 @@ final class LoadCacheExchangeRateTests: XCTestCase {
         
         let result = try sut.loadCache()
         
-        XCTAssertEqual(result, nil)
+        XCTAssertNil(result)
     }
     
     func test_onLoadCache_onInvalidStore_emptiesStore() throws {
@@ -48,26 +48,28 @@ final class LoadCacheExchangeRateTests: XCTestCase {
         XCTAssertEqual(spy.messages, [.retrieve, .deletion])
     }
     
-    func test_onLoadCache_onValidStore_deliversExchangeRate() throws {
+    func test_onLoadCache_onValidStore_deliversTimestampedExchangeRate() throws {
+        let date = Date()
         let (sut, spy) = makeSUT()
         let exchangeRate = createAnyExchangeRate()
-        spy.stubbedRetrievalItems = exchangeRate.local
+        spy.stubbedRetrievalItems = (exchangeRate.local, date.adding(seconds: 1))
         
         let result = try sut.loadCache()
         
-        XCTAssertEqual(result, exchangeRate.model)
+        XCTAssertEqual(result?.exchangeRate, exchangeRate.model)
+        XCTAssertEqual(result?.timestamp, date.adding(seconds: 1))
     }
     
     // MARK: - Helpers
     private func assertLoadCacheThrowsError(
-        for sut: CacheExchangeRate,
+        for sut: LocalExchangeRateStore,
         exchangeRate: ExchangeRate,
-        expectedErrorCase: CacheExchangeRate.LoadError,
+        expectedErrorCase: LocalExchangeRateStore.LoadError,
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
         XCTAssertThrowsError(try sut.loadCache(), file: file, line: line) { error in
-            switch (expectedErrorCase, error as! CacheExchangeRate.LoadError) {
+            switch (expectedErrorCase, error as! LocalExchangeRateStore.LoadError) {
             case (.loadError(let expectedError), .loadError(let error)):
                 XCTAssertEqual((expectedError as NSError).domain, (error as NSError).domain, file: file, line: line)
                 XCTAssertEqual((expectedError as NSError).code, (error as NSError).code, file: file, line: line)
@@ -82,13 +84,20 @@ final class LoadCacheExchangeRateTests: XCTestCase {
         currentDate: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: CacheExchangeRate, spy: StoreSpy) {
+    ) -> (sut: LocalExchangeRateStore, spy: StoreSpy) {
         let spy = StoreSpy()
-        let sut = CacheExchangeRate(store: spy, currentDate: currentDate)
+        let sut = LocalExchangeRateStore(store: spy, currentDate: currentDate)
         
         trackForMemoryLeaks(spy, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         
         return (sut, spy)
+    }
+}
+
+private extension Date {
+    func adding(seconds: Int) -> Date {
+        let calendar = Calendar.init(identifier: .gregorian)
+        return calendar.date(byAdding: .init(calendar: calendar, second: seconds), to: self)!
     }
 }

@@ -50,14 +50,14 @@ final class CacheExchangeRateTests: XCTestCase {
     
     // MARK: - Helpers
     private func assertCacheThrowsError(
-        for sut: CacheExchangeRate,
+        for sut: LocalExchangeRateStore,
         exchangeRate: ExchangeRate,
-        expectedErrorCase: CacheExchangeRate.SaveError,
+        expectedErrorCase: LocalExchangeRateStore.SaveError,
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
         XCTAssertThrowsError(try sut.cache(exchangeRate: exchangeRate)) { error in
-            switch (expectedErrorCase, error as! CacheExchangeRate.SaveError) {
+            switch (expectedErrorCase, error as! LocalExchangeRateStore.SaveError) {
             case (.insertionError(let expectedError), .insertionError(let error)):
                 XCTAssertEqual((expectedError as NSError).domain, (error as NSError).domain, file: file, line: line)
                 XCTAssertEqual((expectedError as NSError).code, (error as NSError).code, file: file, line: line)
@@ -76,9 +76,9 @@ final class CacheExchangeRateTests: XCTestCase {
         currentDate: @escaping () -> Date = Date.init,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: CacheExchangeRate, spy: StoreSpy) {
+    ) -> (sut: LocalExchangeRateStore, spy: StoreSpy) {
         let spy = StoreSpy()
-        let sut = CacheExchangeRate(store: spy, currentDate: currentDate)
+        let sut = LocalExchangeRateStore(store: spy, currentDate: currentDate)
         
         trackForMemoryLeaks(spy, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)

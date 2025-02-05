@@ -1,6 +1,6 @@
 import ExchangeRateChallenge
 
-class StoreSpy: LocalExchangeRateStore {
+class StoreSpy: ExchangeRateStoreCache {
     private(set) var messages: [AnyMessage] = []
     private(set) var retrieveCallCount: Int = 0
     private(set) var insertCallCount: Int = 0
@@ -8,7 +8,7 @@ class StoreSpy: LocalExchangeRateStore {
     enum AnyMessage: Equatable {
         case deletion
         case insertion(
-            exchangeRate: CacheExchangeRate.LocalExchangeRate,
+            exchangeRate: LocalExchangeRateStore.LocalExchangeRate,
             timestamp: Date
         )
         case retrieve
@@ -17,7 +17,7 @@ class StoreSpy: LocalExchangeRateStore {
     var stubbedRetrievalError: Error?
     var stubbedDeletionError: Error?
     var stubbedInsertionError: Error?
-    var stubbedRetrievalItems: CacheExchangeRate.LocalExchangeRate?
+    var stubbedRetrievalItems: CachedExchangeRate?
     
     func delete() throws {
         messages.append(.deletion)
@@ -27,7 +27,7 @@ class StoreSpy: LocalExchangeRateStore {
         }
     }
     
-    func insert(exchangeRate: CacheExchangeRate.LocalExchangeRate, timestamp: Date) throws {
+    func insert(exchangeRate: LocalExchangeRateStore.LocalExchangeRate, timestamp: Date) throws {
         insertCallCount += 1
         messages.append(.insertion(exchangeRate: exchangeRate, timestamp: timestamp))
         
@@ -36,7 +36,7 @@ class StoreSpy: LocalExchangeRateStore {
         }
     }
     
-    func retrieve() throws -> CacheExchangeRate.LocalExchangeRate? {
+    func retrieve() throws -> CachedExchangeRate? {
         retrieveCallCount += 1
         messages.append(.retrieve)
         
